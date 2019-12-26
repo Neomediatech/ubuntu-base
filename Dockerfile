@@ -1,4 +1,4 @@
-FROM: ubuntu:18.04
+FROM ubuntu:18.04
 
 ENV VERSION=18.04 \
     DEBIAN_FRONTEND=noninteractive \
