@@ -1,2 +1,1 @@
-# ubuntu-base
-Ubuntu docker image with tini
+# Ubuntu docker image with tini
