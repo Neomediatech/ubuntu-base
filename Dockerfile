@@ -13,5 +13,3 @@ RUN echo $TZ > /etc/timezone && \
     rm -rf /var/lib/apt/lists/* && \
     chmod +x /tini-static-amd64 && \
     ln -s /tini-static-amd64 /tini
-
-CMD ["/bin/bash"]
