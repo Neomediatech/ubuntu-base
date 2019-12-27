@@ -1,3 +1,5 @@
+[![](https://images.microbadger.com/badges/version/neomediatech/ubuntu-base.svg)](https://microbadger.com/images/neomediatech/ubuntu-base)
+
 # Ubuntu docker image with custom timezone
 
 Base image for other custom images.  
