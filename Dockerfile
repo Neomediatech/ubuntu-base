@@ -3,7 +3,7 @@ FROM ubuntu:18.04
 ENV VERSION=18.04 \
     DEBIAN_FRONTEND=noninteractive \
     TZ=Europe/Rome \
-    SERVICE=ubuntu \
+    OS=ubuntu \
     LANG=it_IT.utf8
 
 COPY bin/tini-static-amd64 /
