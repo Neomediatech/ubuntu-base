@@ -6,6 +6,8 @@ ENV VERSION=18.04 \
     OS=ubuntu \
     LANG=it_IT.utf8
 
+ARG UPDATE=18.04-u202002201815
+
 COPY bin/tini-static-amd64 /
 
 RUN echo $TZ > /etc/timezone && \
