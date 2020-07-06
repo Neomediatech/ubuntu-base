@@ -6,7 +6,7 @@ ENV VERSION=18.04 \
     OS=ubuntu \
     LANG=it_IT.utf8
 
-ARG UPDATE=18.04-u202006221030
+ARG UPDATE=18.04-u202007061100
 
 COPY bin/tini-static-amd64 /
 
