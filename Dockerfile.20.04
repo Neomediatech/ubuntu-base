@@ -8,12 +8,12 @@ ENV VERSION=20.04 \
 
 ARG UPDATE=20.04-u202009071152
 
-COPY bin/tini-static-amd64 /
+COPY bin/tini-static-amd64 bin/dockerize /
 
 RUN echo $TZ > /etc/timezone && \
     apt-get update && apt-get -y dist-upgrade && \
     apt-get install --no-install-recommends -y tzdata locales inetutils-ping netcat && \
     rm -rf /var/lib/apt/lists/* && \
-    chmod +x /tini-static-amd64 && \
+    chmod +x /tini-static-amd64 /dockerize && \
     ln -s /tini-static-amd64 /tini && \
     localedef -i it_IT -c -f UTF-8 -A /usr/share/locale/locale.alias it_IT.UTF-8
