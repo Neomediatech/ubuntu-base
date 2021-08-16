@@ -1,15 +1,11 @@
-# do not use
-FROM ubuntu:18.04
+FROM ubuntu
 
-ENV VERSION=18.04 \
-    DEBIAN_FRONTEND=noninteractive \
+ENV DEBIAN_FRONTEND=noninteractive \
     TZ=Europe/Rome \
     OS=ubuntu \
     LANG=it_IT.utf8
 
-ARG UPDATE=18.04-u202004292000
-
-COPY bin/tini-static-amd64 /
+COPY bin/tini-static-amd64 bin/dockerize /
 
 RUN echo $TZ > /etc/timezone && \
     apt-get update && apt-get -y dist-upgrade && \
