@@ -1,4 +1,3 @@
-[![](https://images.microbadger.com/badges/version/neomediatech/ubuntu-base.svg)](https://microbadger.com/images/neomediatech/ubuntu-base)
 [![Docker Pulls](https://img.shields.io/docker/pulls/neomediatech/ubuntu-base.svg?style=plastic)](https://hub.docker.com/r/neomediatech/ubuntu-base/)
 
 # Ubuntu docker image with custom timezone
