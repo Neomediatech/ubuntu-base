@@ -17,7 +17,7 @@ ENV LANG=it_IT.utf8 \
 
 RUN localedef -i it_IT -c -f UTF-8 -A /usr/share/locale/locale.alias it_IT.UTF-8 && \
     echo "it_IT.UTF-8 UTF-8" > /etc/locale.gen && locale-gen && \
-    apt-get update && apt-get install --no-install-recommends -y inetutils-ping netcat && \
+    apt-get update && apt-get install --no-install-recommends -y inetutils-ping netcat-openbsd && \
     rm -rf /var/lib/apt/lists/* && \
     chmod +x /tini-static-amd64 /dockerize && \
     ln -s /tini-static-amd64 /tini 
