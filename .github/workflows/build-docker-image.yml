@@ -28,3 +28,4 @@ jobs:
     with:
       file_id: ${{ needs.build-and-scan.outputs.uploaded-file-id }}
       filename: ${{ needs.build-and-scan.outputs.file_to_copy_output }}
+      dockertag: ${{ matrix.target }}
