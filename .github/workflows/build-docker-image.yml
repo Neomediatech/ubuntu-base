@@ -9,11 +9,14 @@ on:
 jobs:
   build-and-scan:
     secrets: inherit
+    strategy:
+      matrix:
+        target: [24.04, 23.04, 22.04, 20.04, 18.04]
     uses: Neomediatech/docker-images-scan-reports/.github/workflows/build-and-scan-docker-image.yml@main
     with:
-      dockerfile: "Dockerfile.24.04"
+      dockerfile: "Dockerfile.${{ matrix.target }}"
       dockerdir: "."
-      dockertag: "24.04"
+      dockertag: ${{ matrix.target }}
 
   push-report-to-repo:
     needs: [build-and-scan]
