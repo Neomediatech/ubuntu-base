@@ -13,7 +13,6 @@ jobs:
       contents: read
       packages: write
 
-    secrets: inherit
     strategy:
       matrix:
         type: [apache, fpm]
