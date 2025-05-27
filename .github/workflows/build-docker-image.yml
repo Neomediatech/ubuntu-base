@@ -49,10 +49,6 @@ jobs:
       max-parallel: 1
       # non posso parallellizzare il processo perché l'upload delle immagini va in errore con "permission denied"
 
-    # Esegui il job solo se l'input 'version_to_build' è vuoto (compila tutto)
-    # OPPURE se 'version_to_build' corrisponde alla versione corrente della matrice
-    if: ${{ inputs.version_to_build == '' || inputs.version_to_build == matrix.version }}
-
     uses: Neomediatech/gh-workflows/.github/workflows/build-and-push-docker-image.yml@main
     with:
       dockerfile: "Dockerfile.${{ matrix.version }}"
@@ -78,7 +74,6 @@ jobs:
         version: ${{ fromJSON(needs.generate_matrix.outputs.versions) }}
       max-parallel: 1
     needs: [generate_matrix, scan-docker-image]
-    if: ${{ inputs.version_to_build == '' || inputs.version_to_build == matrix.version }}
     secrets: inherit
     uses: Neomediatech/gh-workflows/.github/workflows/copy-file-to-another-repo.yml@main
     with:
