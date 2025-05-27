@@ -4,7 +4,12 @@ on:
   #push:
   #pull_request:
   workflow_dispatch: # Permette di avviare il workflow manualmente dalla UI di GitHub
-
+    inputs:
+      version_to_build:
+        description: 'Specifica una versione specifica da compilare (es. 22.04). Lascia vuoto per compilare tutte le versioni.'
+        required: false
+        type: string
+        default: '' # Valore di default vuoto per compilare tutte le versioni
 jobs:
   build-and-push:
     secrets: inherit
@@ -13,6 +18,11 @@ jobs:
         version: [latest, 24.04, 22.04, 20.04, 18.04]
       max-parallel: 1
       # non posso parallellizzare il processo perché l'upload delle immagini va in errore con "permission denied"
+
+    # Esegui il job solo se l'input 'version_to_build' è vuoto (compila tutto)
+    # OPPURE se 'version_to_build' corrisponde alla versione corrente della matrice
+    if: ${{ inputs.version_to_build == '' || inputs.version_to_build == matrix.version }}
+
     uses: Neomediatech/gh-workflows/.github/workflows/build-and-push-docker-image.yml@main
     with:
       dockerfile: "Dockerfile.${{ matrix.version }}"
@@ -25,6 +35,7 @@ jobs:
       matrix:
         version: [latest, 24.04, 22.04, 20.04, 18.04]
     needs: [build-and-push]
+    if: ${{ inputs.version_to_build == '' || inputs.version_to_build == matrix.version }}
     uses: Neomediatech/gh-workflows/.github/workflows/scan-docker-image.yml@main
     with:
       dockertag: ${{ matrix.version }}
@@ -35,6 +46,7 @@ jobs:
         version: [latest, 24.04, 22.04, 20.04, 18.04]
       max-parallel: 1
     needs: [scan-docker-image]
+    if: ${{ inputs.version_to_build == '' || inputs.version_to_build == matrix.version }}
     secrets: inherit
     uses: Neomediatech/gh-workflows/.github/workflows/copy-file-to-another-repo.yml@main
     with:
