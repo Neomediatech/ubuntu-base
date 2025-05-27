@@ -30,7 +30,7 @@ jobs:
               exit 1
           fi
 
-          INPUT_VERSIONS=$(echo "${{ inputs.versions_to_build }}" | tr -d '\n' | xargs)
+          INPUT_VERSIONS=$(printf "%s" "${{ inputs.versions_to_build }}" | tr -d '\n' | xargs)
 
           # Debug: Mostra il valore pulito dell'input
           echo "Input Versions: '${INPUT_VERSIONS}'"
@@ -46,6 +46,8 @@ jobs:
             echo "Building selected versions: $SELECTED_VERSIONS"
           fi
 
+          echo "DEBUG: SELECTED_VERSIONS before jq: '${SELECTED_VERSIONS}'"
+
           # Converte la stringa separata da virgole in un array JSON
           # e imposta l'output 'versions'.
           # `map(select(length > 0))` filtra gli elementi vuoti (es. se la stringa fosse "v1,,v2")
@@ -56,6 +58,7 @@ jobs:
 
           # Scrive la variabile di output nel file $GITHUB_OUTPUT usando printf per precisione
           printf "versions=%s\n" "$JSON_VERSIONS" >> "$GITHUB_OUTPUT"
+          exit 1
         shell: bash
 
   build-and-push:
