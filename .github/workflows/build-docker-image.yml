@@ -30,6 +30,10 @@ jobs:
               exit 1
           fi
 
+          # *** NUOVA LINEA DI DEBUG CRITICA ***
+          echo "DEBUG: Raw input from GitHub Actions expression: '${{ inputs.versions_to_build }}'"
+          # *** FINE NUOVA LINEA DI DEBUG ***
+
           INPUT_VERSIONS=$(echo "${{ inputs.versions_to_build }}" | tr -d '\n' | xargs)
 
           # Debug: Mostra il valore pulito dell'input
