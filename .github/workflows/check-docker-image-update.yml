@@ -61,9 +61,11 @@ jobs:
           echo "base_image=${BASE_IMAGE}" >> $GITHUB_OUTPUT
           echo "dockerfile_name=${DOCKERFILE_FILENAME}" >> $GITHUB_OUTPUT
           echo "docker_context_dir=${DOCKER_CONTEXT_DIR}" >> $GITHUB_OUTPUT
-          echo "docker_full_tag=${{ matrix.version }}-${{ matrix.type }}" >> $GITHUB_OUTPUT # Tag completo per l'immagine finale
+          echo "docker_full_tag=${{ matrix.version }}" >> $GITHUB_OUTPUT # Tag completo per l'immagine finale
+          #echo "docker_full_tag=${{ matrix.version }}-${{ matrix.type }}" >> $GITHUB_OUTPUT # Tag completo per l'immagine finale
         if: |
-          ${{ inputs.check_version == matrix.version && inputs.check_type == matrix.type }}
+          ${{ inputs.check_version == matrix.version }}
+          #${{ inputs.check_version == matrix.version && inputs.check_type == matrix.type }}
 
       - name: Log in to GitHub Container Registry
         uses: docker/login-action@v3
@@ -102,5 +104,6 @@ jobs:
         # Esegui questo step se l'immagine base non è stata aggiornata.
         if: steps.check.outputs.needs-updating == 'false' && steps.base_image_info.outputs.base_image != ''
         run: |
-          echo "L'immagine base per la versione ${{ matrix.version }}-${{ matrix.type }} non è stata aggiornata, nessuna azione necessaria."
+          echo "L'immagine base per la versione ${{ matrix.version }} non è stata aggiornata, nessuna azione necessaria."
+          #echo "L'immagine base per la versione ${{ matrix.version }}-${{ matrix.type }} non è stata aggiornata, nessuna azione necessaria."
 
