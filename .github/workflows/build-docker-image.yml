@@ -50,7 +50,7 @@ jobs:
           # e imposta l'output 'versions'.
           # `map(select(length > 0))` filtra gli elementi vuoti (es. se la stringa fosse "v1,,v2")
           # `-c` per output compatto, senza nuove righe.
-          JSON_VERSIONS=$(echo "$SELECTED_VERSIONS" | jq -c -R -s 'split(",") | map(select(length > 0))')
+          JSON_VERSIONS=$(jq -c -R -s 'split(",") | map(select(length > 0))' <<< "$SELECTED_VERSIONS")
 
           echo "Generated JSON versions: '$JSON_VERSIONS'" # Debugging output
 
