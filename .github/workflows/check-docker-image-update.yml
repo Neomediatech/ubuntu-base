@@ -76,12 +76,21 @@ jobs:
         # Esegui il login solo se l'immagine base è stata determinata (e quindi il job non è stato saltato).
         if: ${{ steps.base_image_info.outputs.base_image != '' }}
 
+      - name: Get Lowercase Repository Name
+        id: get_lowercase_repo # Assegniamo un ID a questo step per poterne usare l'output
+        run: |
+          # Ottiene il nome del repository e lo converte in minuscolo
+          LOWER_REPO=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
+          echo "Lowercased repository name: $LOWER_REPO"
+          # Esporta il valore in minuscolo come output dello step
+          echo "repo_lower=$LOWER_REPO" >> $GITHUB_OUTPUT
+
       - name: Check if base image is updated
         id: check
         uses: neomediatech/docker-image-update-checker@main
         with:
           # La tua immagine su GHCR (quella che costruisci e pushi).
-          image: 'ghcr.io/${{ lower(github.repository) }}:${{ steps.base_image_info.outputs.docker_full_tag }}'
+          image: 'ghcr.io/${{ steps.get_lowercase_repo.outputs.repo_lower }}:${{ steps.base_image_info.outputs.docker_full_tag }}'
           # L'immagine base da monitorare, ottenuta dinamicamente dallo step precedente.
           base-image: ${{ steps.base_image_info.outputs.base_image }}
           # Se l'immagine base è privata su Docker Hub o per evitare rate limits, puoi aggiungere:
