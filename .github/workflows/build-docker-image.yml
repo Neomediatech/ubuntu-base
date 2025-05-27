@@ -6,16 +6,46 @@ on:
   workflow_dispatch: # Permette di avviare il workflow manualmente dalla UI di GitHub
     inputs:
       version_to_build:
-        description: 'Specifica una versione specifica da compilare (es. 22.04). Lascia vuoto per compilare tutte le versioni.'
+        description: 'Inserisci una versione specifica da compilare (es. 22.04). Lascia vuoto per compilare tutte le versioni.'
         required: false
         type: string
-        default: '' # Valore di default vuoto per compilare tutte le versioni
+        default: 'latest, 24.04, 22.04, 20.04, 18.04' # Valore di default vuoto per compilare tutte le versioni
 jobs:
+  # Job per generare dinamicamente la matrice
+  generate_matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      versions: ${{ steps.set_versions.outputs.versions }}
+    steps:
+      - name: Set Versions for Matrix
+        id: set_versions
+        run: |
+          INPUT_VERSIONS="${{ inputs.versions_to_build }}"
+          # Lista completa di tutte le versioni disponibili
+          ALL_VERSIONS="latest,24.04,22.04,20.04,18.04"
+
+          # Se l'input è vuoto, usa tutte le versioni.
+          # Altrimenti, usa le versioni specificate dall'input.
+          if [ -z "$INPUT_VERSIONS" ]; then
+            SELECTED_VERSIONS="$ALL_VERSIONS"
+            echo "Building all versions: $SELECTED_VERSIONS"
+          else
+            SELECTED_VERSIONS="$INPUT_VERSIONS"
+            echo "Building selected versions: $SELECTED_VERSIONS"
+          fi
+
+          # Converte la stringa separata da virgole in un array JSON
+          # e imposta l'output 'versions'
+          echo "versions=$(echo $SELECTED_VERSIONS | jq -R -s 'split(",")')" >> $GITHUB_OUTPUT
+        shell: bash
+
   build-and-push:
     secrets: inherit
+    needs: generate_matrix
     strategy:
       matrix:
-        version: [latest, 24.04, 22.04, 20.04, 18.04]
+        #version: [latest, 24.04, 22.04, 20.04, 18.04]
+        version: ${{ fromJSON(needs.generate_matrix.outputs.versions) }}
       max-parallel: 1
       # non posso parallellizzare il processo perché l'upload delle immagini va in errore con "permission denied"
 
@@ -33,8 +63,9 @@ jobs:
     secrets: inherit
     strategy:
       matrix:
-        version: [latest, 24.04, 22.04, 20.04, 18.04]
-    needs: [build-and-push]
+        #version: [latest, 24.04, 22.04, 20.04, 18.04]
+        version: ${{ fromJSON(needs.generate_matrix.outputs.versions) }}
+    needs: [generate_matrix, build-and-push]
     if: ${{ inputs.version_to_build == '' || inputs.version_to_build == matrix.version }}
     uses: Neomediatech/gh-workflows/.github/workflows/scan-docker-image.yml@main
     with:
@@ -43,9 +74,10 @@ jobs:
   push-report-to-repo:
     strategy:
       matrix:
-        version: [latest, 24.04, 22.04, 20.04, 18.04]
+        #version: [latest, 24.04, 22.04, 20.04, 18.04]
+        version: ${{ fromJSON(needs.generate_matrix.outputs.versions) }}
       max-parallel: 1
-    needs: [scan-docker-image]
+    needs: [generate_matrix, scan-docker-image]
     if: ${{ inputs.version_to_build == '' || inputs.version_to_build == matrix.version }}
     secrets: inherit
     uses: Neomediatech/gh-workflows/.github/workflows/copy-file-to-another-repo.yml@main
