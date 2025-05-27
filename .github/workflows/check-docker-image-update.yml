@@ -13,6 +13,7 @@ jobs:
       contents: read
       packages: write
 
+    secrets: inherit
     strategy:
       matrix:
         type: [apache, fpm]
@@ -69,12 +70,9 @@ jobs:
 
       - name: Check if base image is updated
         id: check
-        # Usa l'azione per controllare gli aggiornamenti dell'immagine base.
-        # Assicurati che 'neomediatech/docker-image-update-checker' sia l'azione corretta e accessibile.
         uses: neomediatech/docker-image-update-checker@main
         with:
           # La tua immagine su GHCR (quella che costruisci e pushi).
-          # Il formato tipico è ghcr.io/<utente_o_organizzazione_github>/<nome_repository_github>:<tag>
           image: 'ghcr.io/${{ github.repository }}:${{ steps.base_image_info.outputs.docker_full_tag }}'
           # L'immagine base da monitorare, ottenuta dinamicamente dallo step precedente.
           base-image: ${{ steps.base_image_info.outputs.base_image }}
@@ -93,7 +91,6 @@ jobs:
           dockerfile: ${{ steps.base_image_info.outputs.dockerfile_name }} # Passa il nome del Dockerfile
           dockerdir: ${{ steps.base_image_info.outputs.docker_context_dir }} # Passa la directory del contesto
           dockertag: ${{ steps.base_image_info.outputs.docker_full_tag }} # Passa il tag completo
-        secrets: inherit # Passa i secrets al workflow chiamato, come nel tuo workflow originale
 
       - name: No update needed
         # Esegui questo step se l'immagine base non è stata aggiornata.
