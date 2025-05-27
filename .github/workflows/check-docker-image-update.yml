@@ -26,10 +26,19 @@ jobs:
       - name: Determine Base Image and Dockerfile Info 
         id: base_image_info
         run: |
+          # comandi di debug per vedere il contenuto della directory
+          echo "Current working directory: $(pwd)"
+          echo "Listing contents of current directory:"
+          ls -F
+          echo "Listing contents of ${{ matrix.type }}/:" # Controlla se la cartella type esiste
+          ls -F ${{ matrix.type }}/ || true # '|| true' evita che il comando fallisca se la directory non esiste
+
           DOCKERFILE_FILENAME="Dockerfile.${{ matrix.version }}"
           DOCKER_CONTEXT_DIR="${{ matrix.type }}"
           DOCKERFILE_PATH="${DOCKER_CONTEXT_DIR}/${DOCKERFILE_FILENAME}"
-          
+
+          echo "Attempting to find Dockerfile at: ${DOCKERFILE_PATH}" # Log del percorso che sta cercando
+
           # Verifica che il Dockerfile esista
           if [ ! -f "${DOCKERFILE_PATH}" ]; then
             echo "Error: Dockerfile not found at ${DOCKERFILE_PATH}"
