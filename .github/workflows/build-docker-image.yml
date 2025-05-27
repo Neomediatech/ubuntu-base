@@ -30,7 +30,11 @@ jobs:
               exit 1
           fi
 
-          INPUT_VERSIONS="${{ inputs.versions_to_build }}"
+          INPUT_VERSIONS=$(echo "${{ inputs.versions_to_build }}" | tr -d '\n' | xargs)
+
+          # Debug: Mostra il valore pulito dell'input
+          echo "Input Versions: '${INPUT_VERSIONS}'"
+
           # Lista completa di tutte le versioni disponibili
           ALL_VERSIONS="latest,24.04,22.04,20.04,18.04"
 
