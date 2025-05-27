@@ -5,7 +5,7 @@ on:
   #pull_request:
   workflow_dispatch: # Permette di avviare il workflow manualmente dalla UI di GitHub
     inputs:
-      version_to_build:
+      versions_to_build:
         description: 'Inserisci una versione specifica da compilare (es. 22.04 o latest o più elementi separati da virgola). Lascia vuoto per compilare tutte le versioni.'
         required: false
         type: string
@@ -29,10 +29,6 @@ jobs:
               echo "Error: jq is not installed. It is required for this step."
               exit 1
           fi
-
-          # *** NUOVA LINEA DI DEBUG CRITICA ***
-          echo "DEBUG: Raw input from GitHub Actions expression: '${{ inputs.versions_to_build }}'"
-          # *** FINE NUOVA LINEA DI DEBUG ***
 
           INPUT_VERSIONS=$(echo "${{ inputs.versions_to_build }}" | tr -d '\n' | xargs)
 
