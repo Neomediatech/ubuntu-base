@@ -81,7 +81,7 @@ jobs:
         uses: neomediatech/docker-image-update-checker@main
         with:
           # La tua immagine su GHCR (quella che costruisci e pushi).
-          image: 'ghcr.io/${{ github.repository }}:${{ steps.base_image_info.outputs.docker_full_tag }}'
+          image: 'ghcr.io/${{ lower(github.repository) }}:${{ steps.base_image_info.outputs.docker_full_tag }}'
           # L'immagine base da monitorare, ottenuta dinamicamente dallo step precedente.
           base-image: ${{ steps.base_image_info.outputs.base_image }}
           # Se l'immagine base è privata su Docker Hub o per evitare rate limits, puoi aggiungere:
