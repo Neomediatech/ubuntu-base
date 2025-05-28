@@ -1,9 +1,9 @@
 name: Check Base Image Updates and Rebuild
 
 on:
-  schedule:
+  #schedule:
     # Esegui ogni giorno alle 04:00 UTC per controllare gli aggiornamenti.
-    - cron: '0 4 * * *'
+  #  - cron: '0 4 * * *'
   workflow_dispatch:
 
 jobs:
