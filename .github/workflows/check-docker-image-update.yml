@@ -23,49 +23,21 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Determine Base Image and Dockerfile Info 
-        id: base_image_info
+      - name: Get Lowercase Repository Name
+        id: get_lowercase_repo
         run: |
-          echo "Current working directory $(pwd)"
-          echo "Listing contents of current directory"
-          ls -F
-          #echo "Listing contents of ${{ matrix.type }}/:" # Controlla se la cartella type esiste
-          #ls -F ${{ matrix.type }}/ || true # '|| true' evita che il comando fallisca se la directory non esiste
-
-          DOCKERFILE_FILENAME="Dockerfile.${{ matrix.version }}"
-          #DOCKER_CONTEXT_DIR="${{ matrix.type }}"
-          #DOCKERFILE_PATH="${DOCKER_CONTEXT_DIR}/${DOCKERFILE_FILENAME}"
-          DOCKERFILE_PATH="${DOCKERFILE_FILENAME}"
-
-          # Verifica che il Dockerfile esista
-          if [ ! -f "${DOCKERFILE_PATH}" ]; then
-            echo "Error: Dockerfile not found at ${DOCKERFILE_PATH}"
-            exit 1
-          fi
-
-          # Legge il contenuto del Dockerfile specifico.
-          DOCKERFILE_CONTENT=$(cat "${DOCKERFILE_PATH}")
-          # Estrae la prima riga che inizia con "FROM".
-          BASE_IMAGE_LINE=$(echo "${DOCKERFILE_CONTENT}" | grep -m 1 "^FROM")
+          # Ottiene il nome del repository e lo converte in minuscolo
+          LOWER_REPO=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
+          echo "Lowercased repository name: $LOWER_REPO"
+          # Esporta il valore in minuscolo come output dello step
+          echo "repo_lower=$LOWER_REPO" >> $GITHUB_OUTPUT
           
-          # Verifica che ci sia una riga FROM
-          if [ -z "${BASE_IMAGE_LINE}" ]; then
-            echo "Error: No FROM instruction found in ${DOCKERFILE_PATH}"
-            exit 1
-          fi
-
-          # Estrae solo il nome dell'immagine base (es. "ubuntu:24.04" o "node:lts-alpine").
-          BASE_IMAGE=$(echo "${BASE_IMAGE_LINE}" | sed -E 's/FROM ([^ ]+)( AS .*)?/\1/')
-          
-          echo "Determined base image for ${DOCKERFILE_PATH}: ${BASE_IMAGE}"
-          echo "base_image=${BASE_IMAGE}" >> $GITHUB_OUTPUT
-          echo "dockerfile_name=${DOCKERFILE_FILENAME}" >> $GITHUB_OUTPUT
-          echo "docker_context_dir=${DOCKER_CONTEXT_DIR}" >> $GITHUB_OUTPUT
-          echo "docker_full_tag=${{ matrix.version }}" >> $GITHUB_OUTPUT # Tag completo per l'immagine finale
-          #echo "docker_full_tag=${{ matrix.version }}-${{ matrix.type }}" >> $GITHUB_OUTPUT # Tag completo per l'immagine finale
-        if: |
-          ${{ inputs.check_version == matrix.version }}
-          #${{ inputs.check_version == matrix.version && inputs.check_type == matrix.type }}
+      - name: Determine Base Image and Dockerfile Info 
+        uses: Neomediatech/gh-workflows/.github/workflows/check-docker-image-update.yml@main
+        with:
+          image_repo: ${{ steps.get_lowercase_repo.outputs.repo_lower }}
+          dockertag: ${{ matrix.version }}
+          base_image: ubuntu
 
       - name: Log in to GitHub Container Registry
         uses: docker/login-action@v3
@@ -75,15 +47,6 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
         # Esegui il login solo se l'immagine base è stata determinata (e quindi il job non è stato saltato).
         if: ${{ steps.base_image_info.outputs.base_image != '' }}
-
-      - name: Get Lowercase Repository Name
-        id: get_lowercase_repo # Assegniamo un ID a questo step per poterne usare l'output
-        run: |
-          # Ottiene il nome del repository e lo converte in minuscolo
-          LOWER_REPO=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
-          echo "Lowercased repository name: $LOWER_REPO"
-          # Esporta il valore in minuscolo come output dello step
-          echo "repo_lower=$LOWER_REPO" >> $GITHUB_OUTPUT
 
       - name: Log in to GitHub Container Registry
         uses: docker/login-action@v3
