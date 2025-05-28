@@ -59,35 +59,38 @@ jobs:
           printf "versions=%s\n" "$JSON_VERSIONS" >> "$GITHUB_OUTPUT"
           echo "base_image=${{ inputs.base_image }}" >> "$GITHUB_OUTPUT"
         shell: bash
-  
-  build-and-push:
+
+  get-image-info:
     needs: [generate_matrix]
-    runs-on: ubuntu-latest
+    secrets: inherit
     strategy:
       matrix:
         #version: [latest, 24.04, 22.04, 20.04, 18.04]
         version: ${{ fromJSON(needs.generate_matrix.outputs.versions) }}
       max-parallel: 1
       # non posso parallellizzare il processo perché l'upload delle immagini va in errore con "permission denied"
-    steps:
-      - name: Get image info
-        id: get_image_info
-        uses: Neomediatech/gh-workflows/.github/workflows/get-base-image-info.yml@main
-        with:
-          repository: ${{ needs.generate_matrix.outputs.base_image }}
-          tag: ${{ matrix.version }}
-          architecture: 'amd64' # O l'architettura target della tua build
-          os: 'linux'
-      - name: print image digest
-        run: |
-          echo "image digest: ${{ setps.get_image_info.outputs.base_image_digest }}"
-      - name: Build image and push to ghcr.io repo
-        uses: Neomediatech/gh-workflows/.github/workflows/build-and-push-docker-image.yml@main
-        with:
-          dockerfile: "Dockerfile.${{ matrix.version }}"
-          dockerdir: "."
-          dockertag: ${{ matrix.version }}
-          base_image_digest: ${{ setps.get_image_info.outputs.base_image_digest }}
+    uses: Neomediatech/gh-workflows/.github/workflows/get-base-image-info.yml@main
+    with:
+      repository: ${{ needs.generate_matrix.outputs.base_image }}
+      tag: ${{ matrix.version }}
+      architecture: 'amd64' # O l'architettura target della tua build
+      os: 'linux'
+
+  build-and-push:
+    needs: [generate_matrix,get-image-info]
+    secrets: inherit
+    strategy:
+      matrix:
+        #version: [latest, 24.04, 22.04, 20.04, 18.04]
+        version: ${{ fromJSON(needs.generate_matrix.outputs.versions) }}
+      max-parallel: 1
+      # non posso parallellizzare il processo perché l'upload delle immagini va in errore con "permission denied"
+    uses: Neomediatech/gh-workflows/.github/workflows/build-and-push-docker-image.yml@main
+    with:
+      dockerfile: "Dockerfile.${{ matrix.version }}"
+      dockerdir: "."
+      dockertag: ${{ matrix.version }}
+      base_image_digest: ${{ needs.get-image-info.outputs.base_image_digest }}
 
   scan-docker-image:
     secrets: inherit
