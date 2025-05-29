@@ -1,0 +1,139 @@
+name: TEST Check Base Image Updates and Rebuild
+
+on:
+  # Rimuovi i commenti per abilitare lo schedule
+  # schedule:
+  #   # Esegui ogni giorno alle 04:00 UTC per controllare gli aggiornamenti.
+  #   - cron: '0 4 * * *'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'La versione del Dockerfile da controllare/ricostruire (e.g., latest, 24.04)'
+        required: false
+        type: string
+
+jobs:
+  # Questo job prepara i dati necessari e decide se eseguire gli altri workflow
+  prepare-data:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+      repo_lower: ${{ steps.get_lowercase_repo.outputs.repo_lower }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Get Lowercase Repository Name
+        id: get_lowercase_repo
+        run: |
+          LOWER_REPO=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
+          echo "repo_lower=$LOWER_REPO" >> $GITHUB_OUTPUT
+
+      - name: Set Matrix for versions
+        id: set-matrix
+        run: |
+          # Definisci tutte le versioni disponibili
+          VERSIONS='["latest", "24.04", "22.04", "20.04", "18.04"]'
+          
+          # Se un input 'version' è stato fornito, crea una matrice con solo quella versione
+          if [ "${{ github.event.inputs.version }}" != "" ]; then
+            echo "::notice file=prepare-data::Workflow dispatched with specific version: ${{ github.event.inputs.version }}"
+            echo "matrix={\"version\":[\"${{ github.event.inputs.version }}\"]}" >> $GITHUB_OUTPUT
+          else
+            # Altrimenti, usa tutte le versioni predefinite
+            echo "::notice file=prepare-data::No specific version provided, processing all versions."
+            echo "matrix={\"version\":$VERSIONS}" >> $GITHUB_OUTPUT
+          fi
+
+  # Questo job itera su ogni versione e chiama il workflow di check
+  check-image-updates:
+    needs: prepare-data # Dipende dal job 'prepare-data' per ottenere la matrice e il nome del repo
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    strategy:
+      matrix: ${{ fromJson(needs.prepare-data.outputs.matrix) }}
+      max-parallel: 1 # Assicura che un job sia eseguito per volta
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Determine Base Image and Dockerfile Info
+        id: base_image_info
+        run: |
+          DOCKERFILE_FILENAME="Dockerfile.${{ matrix.version }}"
+          DOCKERFILE_PATH="${DOCKERFILE_FILENAME}"
+
+          if [ ! -f "${DOCKERFILE_PATH}" ]; then
+            echo "Error: Dockerfile not found at ${DOCKERFILE_PATH}"
+            exit 1
+          fi
+
+          DOCKERFILE_CONTENT=$(cat "${DOCKERFILE_PATH}")
+          BASE_IMAGE_LINE=$(echo "${DOCKERFILE_CONTENT}" | grep -m 1 "^FROM")
+          
+          if [ -z "${BASE_IMAGE_LINE}" ]; then
+            echo "Error: No FROM instruction found in ${DOCKERFILE_PATH}"
+            exit 1
+          fi
+
+          BASE_IMAGE=$(echo "${BASE_IMAGE_LINE}" | sed -E 's/FROM ([^ ]+)( AS .*)?/\1/')
+          
+          echo "Determined base image for ${DOCKERFILE_PATH}: ${BASE_IMAGE}"
+          echo "base_image=${BASE_IMAGE}" >> $GITHUB_OUTPUT
+          echo "dockerfile_name=${DOCKERFILE_FILENAME}" >> $GITHUB_OUTPUT
+          echo "docker_context_dir=." >> $GITHUB_OUTPUT # Assumiamo la root del repo
+          echo "docker_full_tag=${{ matrix.version }}" >> $GITHUB_OUTPUT
+
+      - name: Call reusable check-docker-image-update workflow
+        id: check_result
+        uses: Neomediatech/gh-workflows/.github/workflows/check-docker-image-update.yml@main
+        with:
+          image_repo: ${{ needs.prepare-data.outputs.repo_lower }}
+          dockertag: ${{ steps.base_image_info.outputs.docker_full_tag }}
+          base_image: ${{ steps.base_image_info.outputs.base_image }}
+          
+        # L'output di questo workflow riutilizzabile sarà disponibile via 'needs.check-image-updates.outputs.<id_step_del_workflow_chiamato>.<nome_output>'
+        # Per semplicità, e dato che il workflow riutilizzabile 'check-docker-image-update.yml' probabilmente ha un output 'needs-updating',
+        # lo catturiamo qui e lo passiamo al job successivo.
+        # È fondamentale che il workflow 'check-docker-image-update.yml' abbia un output `needs-updating`.
+    
+    outputs:
+      needs_updating: ${{ steps.check_result.outputs.needs-updating }} # Cattura l'output del workflow riutilizzabile
+      dockerfile_name: ${{ steps.base_image_info.outputs.dockerfile_name }}
+      docker_context_dir: ${{ steps.base_image_info.outputs.docker_context_dir }}
+      docker_full_tag: ${{ steps.base_image_info.outputs.docker_full_tag }}
+      version: ${{ matrix.version }} # Passa la versione corrente della matrice
+
+  # Questo job esegue il rebuild e il push, solo se necessario
+  rebuild-and-push:
+    needs: check-image-updates # Dipende dal job 'check-image-updates'
+    runs-on: ubuntu-latest
+    if: needs.check-image-updates.outputs.needs_updating == 'true' # Esegue solo se l'immagine ha bisogno di aggiornamenti
+    permissions:
+      contents: read
+      packages: write # Necessario per pushare su GHCR
+    steps:
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Call reusable build-and-push-docker-image workflow
+        uses: Neomediatech/gh-workflows/.github/workflows/build-and-push-docker-image.yml@main
+        with:
+          dockerfile: ${{ needs.check-image-updates.outputs.dockerfile_name }}
+          dockerdir: ${{ needs.check-image-updates.outputs.docker_context_dir }}
+          dockertag: ${{ needs.check-image-updates.outputs.docker_full_tag }}
+
+  # Job per notificare se non è stato necessario nessun aggiornamento
+  no-update-needed:
+    needs: check-image-updates
+    runs-on: ubuntu-latest
+    if: needs.check-image-updates.outputs.needs_updating == 'false'
+    steps:
+      - name: Display no update message
+        run: |
+          echo "L'immagine base per la versione ${{ needs.check-image-updates.outputs.version }} non è stata aggiornata, nessuna azione necessaria."
