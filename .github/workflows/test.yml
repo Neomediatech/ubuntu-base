@@ -1,4 +1,4 @@
-name: TEST Check Base Image Updates and Rebuild
+name: Check Base Image Updates and Rebuild
 
 on:
   # Rimuovi i commenti per abilitare lo schedule
@@ -99,13 +99,11 @@ jobs:
   # Job 2: Controlla gli aggiornamenti dell'immagine (chiama un workflow riutilizzabile)
   check-image-updates:
     needs: prepare-build-matrix # Dipende dal job 'prepare-build-matrix'
-    # 'runs-on' e 'permissions' sono definiti ALL'INTERNO del workflow riutilizzabile
-    # Qui li rimuoviamo perché sono non validi
-    
-    # La strategia della matrice deve essere qui, perché ogni elemento della matrice sarà un'esecuzione separata del workflow riutilizzabile
+    # runs-on e permissions NON vanno qui, sono definiti nel workflow riutilizzabile
+
     strategy:
       matrix: ${{ fromJson(needs.prepare-build-matrix.outputs.matrix) }}
-      max-parallel: 1 # Assicura che un job sia eseguito per volta per check individuali
+      max-parallel: 1 
 
     # Qui chiamiamo il workflow riutilizzabile direttamente a livello di job
     uses: Neomediatech/gh-workflows/.github/workflows/check-docker-image-update.yml@main
@@ -114,49 +112,42 @@ jobs:
       # Recupera le info specifiche per la versione corrente della matrice
       dockertag: ${{ fromJson(needs.prepare-build-matrix.outputs.docker_info_map)[matrix.version].docker_full_tag }}
       base_image: ${{ fromJson(needs.prepare-build-matrix.outputs.docker_info_map)[matrix.version].base_image }}
-    
-    # Gli output del workflow riutilizzabile diventano output di questo job.
-    # Non devi referenziare `jobs.check-image-updates.outputs` qui. È implicito.
-    outputs:
-      needs_updating: ${{ fromJson(needs.prepare-build-matrix.outputs.docker_info_map)[matrix.version].needs-updating }}
-      # I prossimi output sono necessari per il job di rebuild
-      dockerfile_name: ${{ fromJson(needs.prepare-build-matrix.outputs.docker_info_map)[matrix.version].dockerfile_name }}
-      docker_context_dir: ${{ fromJson(needs.prepare-build-matrix.outputs.docker_info_map)[matrix.version].docker_context_dir }}
-      docker_full_tag: ${{ fromJson(needs.prepare-build-matrix.outputs.docker_info_map)[matrix.version].docker_full_tag }}
-      version: ${{ matrix.version }} # Passa la versione corrente della matrice
+    # NESSUNA SEZIONE 'outputs' qui. Gli output del workflow riutilizzabile sono automaticamente output di questo job.
+    # Accesso a questi output sarà: `needs.check-image-updates.outputs.needs-updating`
+    # E per gli altri dati (che erano nella mappa):
+    # `needs.prepare-build-matrix.outputs.docker_info_map` combinato con `matrix.version`
 
   # Job 3: Ricostruisci e pusha l'immagine (chiama un workflow riutilizzabile)
   rebuild-and-push:
-    needs: check-image-updates # Dipende dal job 'check-image-updates'
-    # 'runs-on' e 'permissions' sono definiti ALL'INTERNO del workflow riutilizzabile
-    # Qui li rimuoviamo
+    needs: [prepare-build-matrix, check-image-updates] # Dipende da entrambi per accedere a dati e output
+    # runs-on e permissions NON vanno qui, sono definiti nel workflow riutilizzabile
     
-    # Esegue solo se l'immagine ha bisogno di aggiornamenti
-    if: ${{ needs.check-image-updates.outputs.needs_updating == 'true' }} 
+    # Esegue solo se l'immagine ha bisogno di aggiornamenti.
+    # L'output `needs-updating` viene direttamente dal job `check-image-updates`.
+    if: ${{ needs.check-image-updates.outputs.needs-updating == 'true' }} 
     strategy:
-      # Questo job deve avere una strategia per iterare sulla stessa matrice del job 'check-image-updates'
-      # per garantire che ogni rebuild corrisponda al check.
       matrix: ${{ fromJson(needs.prepare-build-matrix.outputs.matrix) }}
-      max-parallel: 1 # Assicura che un job sia eseguito per volta
+      max-parallel: 1 
 
     # Qui chiamiamo il workflow riutilizzabile direttamente a livello di job
     uses: Neomediatech/gh-workflows/.github/workflows/build-and-push-docker-image.yml@main
     with:
-      dockerfile: ${{ needs.check-image-updates.outputs.dockerfile_name }}
-      dockerdir: ${{ needs.check-image-updates.outputs.docker_context_dir }}
-      dockertag: ${{ needs.check-image-updates.outputs.docker_full_tag }}
-      # Passa i secrets per il login al registry
+      # Passa le info specifiche per la versione corrente della matrice, recuperandole dalla mappa
+      dockerfile: ${{ fromJson(needs.prepare-build-matrix.outputs.docker_info_map)[matrix.version].dockerfile_name }}
+      dockerdir: ${{ fromJson(needs.prepare-build-matrix.outputs.docker_info_map)[matrix.version].docker_context_dir }}
+      dockertag: ${{ fromJson(needs.prepare-build-matrix.outputs.docker_info_map)[matrix.version].docker_full_tag }}
+    # I secrets vengono passati qui, a livello di job, NON dentro 'with'
+    secrets:
       username: ${{ github.actor }}
       password: ${{ secrets.GITHUB_TOKEN }}
       
   # Job 4: Notifica se non è stato necessario nessun aggiornamento
   no-update-needed:
-    needs: check-image-updates
+    needs: [prepare-build-matrix, check-image-updates] # Dipende da entrambi
     runs-on: ubuntu-latest
     # Esegue solo se l'immagine NON ha bisogno di aggiornamenti
-    if: ${{ needs.check-image-updates.outputs.needs_updating == 'false' }}
+    if: ${{ needs.check-image-updates.outputs.needs-updating == 'false' }}
     strategy:
-      # Questo job deve avere una strategia per iterare sulla stessa matrice del job 'check-image-updates'
       matrix: ${{ fromJson(needs.prepare-build-matrix.outputs.matrix) }}
       max-parallel: 1
     steps:
