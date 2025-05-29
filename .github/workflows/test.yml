@@ -1,4 +1,4 @@
-name: Check Base Image Updates and Rebuild
+name: TEST Check Base Image Updates and Rebuild
 
 on:
   # Rimuovi i commenti per abilitare lo schedule
