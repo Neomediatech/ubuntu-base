@@ -18,8 +18,12 @@ jobs:
 
     strategy:
       matrix:
+<<<<<<< HEAD
         version: [latest]
         #version: [latest, 24.04, 22.04, 20.04, 18.04]
+=======
+        version: [latest, 24.04, 22.04, 20.04, 18.04]
+>>>>>>> a3e8aae9211bdcad51e92a369b9f4909ba296553
       max-parallel: 1
 
     steps:
@@ -54,23 +58,22 @@ jobs:
           echo "dockerfile_name=${DOCKERFILE_NAME}" >> $GITHUB_OUTPUT
           echo "docker_full_tag=${{ matrix.version }}" >> $GITHUB_OUTPUT # Tag completo per l'immagine finale
 
-      - name: Log in to GitHub Container Registry
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-        # Esegui il login solo se l'immagine base è stata determinata (e quindi il job non è stato saltato).
-        if: ${{ steps.base_image_info.outputs.base_image != '' }}
-
       - name: Get Lowercase Repository Name
-        id: get_lowercase_repo # Assegniamo un ID a questo step per poterne usare l'output
+        id: get_lowercase_repo
         run: |
           # Ottiene il nome del repository e lo converte in minuscolo
           LOWER_REPO=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
           echo "Lowercased repository name: $LOWER_REPO"
           # Esporta il valore in minuscolo come output dello step
           echo "repo_lower=$LOWER_REPO" >> $GITHUB_OUTPUT
+          
+      - name: Determine Base Image and Dockerfile Info
+        id: check_docker_image_update
+        uses: Neomediatech/gh-workflows/.github/workflows/check-docker-image-update.yml@main
+        with:
+          image_repo: ${{ steps.get_lowercase_repo.outputs.repo_lower }}
+          dockertag: ${{ matrix.version }}
+          base_image: ubuntu
 
       - name: Log in to GitHub Container Registry
         uses: docker/login-action@v3
@@ -79,6 +82,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+<<<<<<< HEAD
   check-update:
     secrets: inherit
     strategy:
@@ -104,6 +108,17 @@ jobs:
     with:
       dockertag: ${{ matrix.version }}
     if: ${{ needs.check-update.outputs.needs-updating == 'true' }}
+=======
+      - name: Rebuild and Push if base image needs update
+        # Esegui questo step solo se l'azione 'check' ha indicato che l'immagine base è aggiornata
+        # e se l'immagine base è stata determinata correttamente.
+        if: steps.check_docker_image_update.outputs.needs-updating == 'true'
+        uses: Neomediatech/gh-workflows/.github/workflows/build-and-push-docker-image.yml@main
+        with:
+          dockerfile: ${{ steps.base_image_info.outputs.dockerfile_name }} # Passa il nome del Dockerfile
+          dockerdir: ${{ steps.base_image_info.outputs.docker_context_dir }} # Passa la directory del contesto
+          dockertag: ${{ steps.base_image_info.outputs.docker_full_tag }} # Passa il tag completo
+>>>>>>> a3e8aae9211bdcad51e92a369b9f4909ba296553
 
   no-need-message:
     runs-on: ubuntu-latest

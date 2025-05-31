@@ -1,0 +1,156 @@
+name: TEST Check Base Image Updates and Rebuild
+
+on:
+  # Rimuovi i commenti per abilitare lo schedule
+  # schedule:
+  #   # Esegui ogni giorno alle 04:00 UTC per controllare gli aggiornamenti.
+  #   - cron: '0 4 * * *'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'La versione del Dockerfile da controllare/ricostruire (e.g., latest, 24.04)'
+        required: false
+        type: string
+
+jobs:
+  # Job 1: Prepara i dati e la matrice di versioni
+  prepare-build-matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+      repo_lower: ${{ steps.get-lowercase-repo.outputs.repo_lower }}
+      docker_info_map: ${{ steps.get-dockerfile-info.outputs.docker_info_map }} 
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Get Lowercase Repository Name
+        id: get_lowercase_repo
+        run: |
+          LOWER_REPO=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
+          echo "repo_lower=$LOWER_REPO" >> $GITHUB_OUTPUT
+
+      - name: Get Dockerfile Info for all versions
+        id: get-dockerfile-info
+        run: |
+          declare -A docker_info_map_array # Associa versione a info JSON
+          ALL_VERSIONS=("latest" "24.04" "22.04" "20.04" "18.04")
+
+          for version in "${ALL_VERSIONS[@]}"; do
+            DOCKERFILE_FILENAME="Dockerfile.${version}"
+            DOCKERFILE_PATH="${DOCKERFILE_FILENAME}"
+
+            if [ ! -f "${DOCKERFILE_PATH}" ]; then
+              echo "Error: Dockerfile not found at ${DOCKERFILE_PATH}. Skipping this version."
+              continue # Salta questa versione se il Dockerfile non esiste
+            fi
+
+            DOCKERFILE_CONTENT=$(cat "${DOCKERFILE_PATH}")
+            BASE_IMAGE_LINE=$(echo "${DOCKERFILE_CONTENT}" | grep -m 1 "^FROM")
+            
+            if [ -z "${BASE_IMAGE_LINE}" ]; then
+              echo "Error: No FROM instruction found in ${DOCKERFILE_PATH}. Skipping this version."
+              continue # Salta questa versione se manca FROM
+            fi
+
+            BASE_IMAGE=$(echo "${BASE_IMAGE_LINE}" | sed -E 's/FROM ([^ ]+)( AS .*)?/\1/')
+            
+            echo "Determined base image for ${DOCKERFILE_PATH}: ${BASE_IMAGE}"
+
+            # Costruisci un JSON con le informazioni per questa versione
+            JSON_INFO="{ \"dockerfile_name\": \"${DOCKERFILE_FILENAME}\", \"docker_context_dir\": \".\", \"docker_full_tag\": \"${version}\", \"base_image\": \"${BASE_IMAGE}\" }"
+            docker_info_map_array["${version}"]="$JSON_INFO"
+          done
+
+          # Converte l'array associativo in un JSON string per l'output
+          JSON_OUTPUT="{"
+          for version in "${!docker_info_map_array[@]}"; do
+            JSON_OUTPUT+="\"${version}\":${docker_info_map_array[${version}]},"
+          done
+          JSON_OUTPUT="${JSON_OUTPUT%,}" # Rimuove l'ultima virgola
+          JSON_OUTPUT+="}"
+          
+          echo "docker_info_map=${JSON_OUTPUT}" >> $GITHUB_OUTPUT
+          echo "Debug: docker_info_map output: $JSON_OUTPUT"
+
+
+      - name: Set Matrix for versions
+        id: set-matrix
+        run: |
+          # Ottieni le chiavi (versioni) dalla mappa JSON creata sopra
+          # jq è installato su runner Ubuntu
+          AVAILABLE_VERSIONS=$(echo '${{ steps.get-dockerfile-info.outputs.docker_info_map }}' | jq -r 'keys | @json')
+          
+          # Se un input 'version' è stato fornito, crea una matrice con solo quella versione
+          if [ "${{ github.event.inputs.version }}" != "" ]; then
+            if echo "$AVAILABLE_VERSIONS" | jq -e "contains([\"${{ github.event.inputs.version }}\"])" >/dev/null; then
+              echo "::notice file=prepare-data::Workflow dispatched with specific version: ${{ github.event.inputs.version }}"
+              echo "matrix={\"version\":[\"${{ github.event.inputs.version }}\"]}" >> $GITHUB_OUTPUT
+            else
+              echo "::error file=prepare-data::Specified version ${{ github.event.inputs.version }} not found in Dockerfile info map. Exiting."
+              exit 1
+            fi
+          else
+            # Altrimenti, usa tutte le versioni disponibili dalla mappa
+            echo "::notice file=prepare-data::No specific version provided, processing all available Dockerfile versions."
+            echo "matrix={\"version\":$AVAILABLE_VERSIONS}" >> $GITHUB_OUTPUT
+          fi
+          
+  # Job 2: Controlla gli aggiornamenti dell'immagine (chiama un workflow riutilizzabile)
+  check-image-updates:
+    needs: prepare-build-matrix # Dipende dal job 'prepare-build-matrix'
+    # runs-on e permissions NON vanno qui, sono definiti nel workflow riutilizzabile
+
+    strategy:
+      matrix: ${{ fromJson(needs.prepare-build-matrix.outputs.matrix) }}
+      max-parallel: 1 
+
+    # Qui chiamiamo il workflow riutilizzabile direttamente a livello di job
+    uses: Neomediatech/gh-workflows/.github/workflows/check-docker-image-update.yml@main
+    with:
+      image_repo: ${{ needs.prepare-build-matrix.outputs.repo_lower }}
+      # Recupera le info specifiche per la versione corrente della matrice
+      dockertag: ${{ fromJson(needs.prepare-build-matrix.outputs.docker_info_map)[matrix.version].docker_full_tag }}
+      base_image: ${{ fromJson(needs.prepare-build-matrix.outputs.docker_info_map)[matrix.version].base_image }}
+    # NESSUNA SEZIONE 'outputs' qui. Gli output del workflow riutilizzabile sono automaticamente output di questo job.
+    # Accesso a questi output sarà: `needs.check-image-updates.outputs.needs-updating`
+    # E per gli altri dati (che erano nella mappa):
+    # `needs.prepare-build-matrix.outputs.docker_info_map` combinato con `matrix.version`
+
+  # Job 3: Ricostruisci e pusha l'immagine (chiama un workflow riutilizzabile)
+  rebuild-and-push:
+    needs: [prepare-build-matrix, check-image-updates] # Dipende da entrambi per accedere a dati e output
+    # runs-on e permissions NON vanno qui, sono definiti nel workflow riutilizzabile
+    
+    # Esegue solo se l'immagine ha bisogno di aggiornamenti.
+    # L'output `needs-updating` viene direttamente dal job `check-image-updates`.
+    if: ${{ needs.check-image-updates.outputs.needs-updating == 'true' }} 
+    strategy:
+      matrix: ${{ fromJson(needs.prepare-build-matrix.outputs.matrix) }}
+      max-parallel: 1 
+
+    # Qui chiamiamo il workflow riutilizzabile direttamente a livello di job
+    uses: Neomediatech/gh-workflows/.github/workflows/build-and-push-docker-image.yml@main
+    with:
+      # Passa le info specifiche per la versione corrente della matrice, recuperandole dalla mappa
+      dockerfile: ${{ fromJson(needs.prepare-build-matrix.outputs.docker_info_map)[matrix.version].dockerfile_name }}
+      dockerdir: ${{ fromJson(needs.prepare-build-matrix.outputs.docker_info_map)[matrix.version].docker_context_dir }}
+      dockertag: ${{ fromJson(needs.prepare-build-matrix.outputs.docker_info_map)[matrix.version].docker_full_tag }}
+    # I secrets vengono passati qui, a livello di job, NON dentro 'with'
+    secrets:
+      username: ${{ github.actor }}
+      password: ${{ secrets.GITHUB_TOKEN }}
+      
+  # Job 4: Notifica se non è stato necessario nessun aggiornamento
+  no-update-needed:
+    needs: [prepare-build-matrix, check-image-updates] # Dipende da entrambi
+    runs-on: ubuntu-latest
+    # Esegue solo se l'immagine NON ha bisogno di aggiornamenti
+    if: ${{ needs.check-image-updates.outputs.needs-updating == 'false' }}
+    strategy:
+      matrix: ${{ fromJson(needs.prepare-build-matrix.outputs.matrix) }}
+      max-parallel: 1
+    steps:
+      - name: Display no update message
+        run: |
+          echo "L'immagine base per la versione ${{ matrix.version }} non è stata aggiornata, nessuna azione necessaria."
