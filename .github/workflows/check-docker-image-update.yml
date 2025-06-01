@@ -1,5 +1,8 @@
 name: Check Base Image Updates and Rebuild
 
+env:
+  VERSIONS: "latest,24.04,22.04,20.04,18.04"
+
 on:
   #schedule:
     # Esegui ogni giorno alle 04:00 UTC per controllare gli aggiornamenti.
@@ -18,6 +21,39 @@ on:
     #    type: string
 
 jobs:
+  generate_matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      versions: ${{ steps.set_versions.outputs.versions }}
+    steps:
+      - name: Set Versions for Matrix
+        id: set_versions
+        run: |
+          set -euo pipefail # Fail immediately if any command fails or variable is unset
+
+          # Check if jq is available (it should be on ubuntu-latest)
+          if ! command -v jq &> /dev/null
+          then
+              echo "Error: jq is not installed. It is required for this step."
+              exit 1
+          fi
+
+          INPUT_VERSIONS=$(printf "%s" "${{ inputs.versions_to_build }}" | tr -d '\n' | xargs)
+
+          if [ -z "$INPUT_VERSIONS" ]; then
+            SELECTED_VERSIONS="$VERSIONS"
+            echo "Building all versions: $SELECTED_VERSIONS"
+          else
+            SELECTED_VERSIONS="$INPUT_VERSIONS"
+            echo "Building selected versions: $SELECTED_VERSIONS"
+          fi
+
+          # Converte la stringa separata da virgole in un array JSON
+          JSON_VERSIONS=$(jq -c -R -s 'split(",") | map(select(length > 0) | gsub("\\n"; ""))' <<< "$SELECTED_VERSIONS")
+
+          printf "versions=%s\n" "$JSON_VERSIONS" >> "$GITHUB_OUTPUT"
+        shell: bash
+
   get-infos:
     runs-on: ubuntu-latest
     permissions:
@@ -27,10 +63,10 @@ jobs:
       repo_lower_output: ${{ steps.get_lowercase_repo.outputs.repo_lower }}
       base_image_output: ${{ steps.base_image_info.outputs.base_image }} # Assicurati di esporre anche questo
 
+    needs: generate_matrix
     strategy:
       matrix:
-        version: [latest]
-        #version: [latest, 24.04, 22.04, 20.04, 18.04]
+        version: ${{ fromJSON(needs.generate_matrix.outputs.versions) }}
       max-parallel: 1
 
     steps:
@@ -94,10 +130,10 @@ jobs:
     secrets: inherit
     strategy:
       matrix:
-        version: [latest]
+        version: ${{ fromJSON(needs.generate_matrix.outputs.versions) }}
       max-parallel: 1
     uses: Neomediatech/gh-workflows/.github/workflows/check-docker-image-update.yml@main
-    needs: get-infos
+    needs: [generate_matrix,get-infos]
     with:
       image_repo: ghcr.io/${{ needs.get-infos.outputs.repo_lower_output }}
       dockertag: ${{ matrix.version }}
@@ -108,17 +144,21 @@ jobs:
     secrets: inherit
     strategy:
       matrix:
-        version: [latest]
+        version: ${{ fromJSON(needs.generate_matrix.outputs.versions) }}
       max-parallel: 1
     uses: ./.github/workflows/build-docker-image.yml 
-    needs: check-update
+    needs: [generate_matrix,check-update]
     with:
       dockertag: ${{ matrix.version }}
     if: ${{ needs.check-update.outputs.needs-updating == 'true' }}
 
   no-need-message:
     runs-on: ubuntu-latest
-    needs: [check-update,rebuild]
+    needs: [generate_matrix,check-update,rebuild]
+    strategy:
+      matrix:
+        version: ${{ fromJSON(needs.generate_matrix.outputs.versions) }}
+      max-parallel: 1
     steps:
       - name: No update needed
         # Esegui questo step se l'immagine base non è stata aggiornata.
@@ -127,4 +167,3 @@ jobs:
         run: |
           echo "L'immagine base per la versione ${{ matrix.version }} non è stata aggiornata, nessuna azione necessaria."
           #echo "L'immagine base per la versione ${{ matrix.version }}-${{ matrix.type }} non è stata aggiornata, nessuna azione necessaria."
-
