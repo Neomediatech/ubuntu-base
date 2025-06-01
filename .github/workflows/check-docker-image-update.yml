@@ -126,7 +126,7 @@ jobs:
     needs: [generate_matrix,get-infos]
     with:
       image_repo: ghcr.io/${{ needs.get-infos.outputs.repo_lower_output }}
-      dockertag: $VERSIONS
+      dockertag: ${{ needs.generate_matrix.outputs.versions }}
       base_image: ${{ needs.get-infos.outputs.base_image_output }}
       update_image: "true"
     if: ${{ needs.get-infos.outputs.base_image_output != '' }}
