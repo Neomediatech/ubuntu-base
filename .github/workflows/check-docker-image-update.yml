@@ -54,7 +54,8 @@ jobs:
 
           # Converte la stringa separata da virgole in un array JSON
           JSON_VERSIONS=$(jq -c -R -s 'split(",") | map(select(length > 0) | gsub("\\n"; ""))' <<< "$SELECTED_VERSIONS")
-          printf "versions=%s\n" "$JSON_VERSIONS" >> "$GITHUB_OUTPUT"
+          printf "json_versions=%s\n" "$JSON_VERSIONS" >> "$GITHUB_OUTPUT"
+          echo "versions=$SELECTED_VERSIONS" >> "$GITHUB_OUTPUT"
         shell: bash
 
   get-infos:
@@ -68,7 +69,7 @@ jobs:
     needs: generate_matrix
     strategy:
       matrix:
-        version: ${{ fromJSON(needs.generate_matrix.outputs.versions) }}
+        version: ${{ fromJSON(needs.generate_matrix.outputs.json_versions) }}
       max-parallel: 1
     steps:
       - name: Checkout code
@@ -136,7 +137,7 @@ jobs:
     needs: [generate_matrix,check-update]
     strategy:
       matrix:
-        version: ${{ fromJSON(needs.generate_matrix.outputs.versions) }}
+        version: ${{ fromJSON(needs.generate_matrix.outputs.json_versions) }}
       max-parallel: 1
     steps:
       - name: No update needed
