@@ -38,10 +38,11 @@ jobs:
               exit 1
           fi
 
-          INPUT_VERSIONS=$(printf "%s" "${{ inputs.versions_to_build }}" | tr -d '\n' | xargs)
+          #INPUT_VERSIONS=$(printf "%s" "${{ inputs.versions_to_build }}" | tr -d '\n' | xargs)
+          INPUT_VERSIONS=''
 
           if [ -z "$INPUT_VERSIONS" ]; then
-            SELECTED_VERSIONS="$VERSIONS"
+            SELECTED_VERSIONS="${{ env.VERSIONS }}"
             echo "Building all versions: $SELECTED_VERSIONS"
           else
             SELECTED_VERSIONS="$INPUT_VERSIONS"
