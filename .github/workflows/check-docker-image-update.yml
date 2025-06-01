@@ -5,6 +5,16 @@ on:
     # Esegui ogni giorno alle 04:00 UTC per controllare gli aggiornamenti.
   #  - cron: '0 4 * * *'
   workflow_dispatch:
+    inputs:
+      dockertag:
+        description: 'Tag for the image (eg: 24.04 or empty for latest)'
+        required: false
+        type: string
+        default: "latest"
+      base_image:
+        description: 'Repo for the base image (eg: ubuntu)'
+        required: true
+        type: string
 
 jobs:
   get-infos:
