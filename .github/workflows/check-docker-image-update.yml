@@ -61,7 +61,7 @@ jobs:
       packages: write
     outputs:
       repo_lower_output: ${{ steps.get_lowercase_repo.outputs.repo_lower }}
-      base_image_output: ${{ steps.base_image_info.outputs.base_image }} # Assicurati di esporre anche questo
+      base_image_output: ${{ steps.base_image_info.outputs.base_image }}
 
     needs: generate_matrix
     strategy:
