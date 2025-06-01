@@ -119,13 +119,6 @@ jobs:
           # Esporta il valore in minuscolo come output dello step
           echo "repo_lower=$LOWER_REPO" >> $GITHUB_OUTPUT
 
-      - name: Log in to GitHub Container Registry
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
   check-update:
     secrets: inherit
     strategy:
