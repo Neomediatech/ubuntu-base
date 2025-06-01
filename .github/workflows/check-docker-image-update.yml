@@ -41,8 +41,11 @@ jobs:
           #INPUT_VERSIONS=$(printf "%s" "${{ inputs.versions_to_build }}" | tr -d '\n' | xargs)
           INPUT_VERSIONS=''
 
+          ENV_VERSIONS="${{ env.VERSIONS }}"
+          echo "Versions from env: $ENV_VERSIONS" # Debugging line
+          
           if [ -z "$INPUT_VERSIONS" ]; then
-            SELECTED_VERSIONS="${{ env.VERSIONS }}"
+            SELECTED_VERSIONS="$ENV_VERSIONS"
             echo "Building all versions: $SELECTED_VERSIONS"
           else
             SELECTED_VERSIONS="$INPUT_VERSIONS"
