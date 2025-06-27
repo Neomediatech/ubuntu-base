@@ -11,7 +11,7 @@
 #    }
 #  }'
 
-name: Build Ubuntu Docker Images via curl (draft)
+name: Build Ubuntu Docker Images via curl
 
 on:
   repository_dispatch: # Per inviare richieste di compilazione immagini via curl
