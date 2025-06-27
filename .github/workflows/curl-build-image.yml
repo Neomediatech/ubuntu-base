@@ -1,0 +1,30 @@
+# questo workflow viene chiamato via curl con questa chiamata:
+# devo accettare anche 'all' sia per 'versions' che per 'type'
+# con questo valore impostato devo guardare nel repo la presenza di ogni Dockerfile.* nella root e in ogni directory (solo il 1mo livello)
+# curl -X POST \
+#  -H "Accept: application/vnd.github+json" \
+#  -H "Authorization: Bearer __github_api_key__" \
+#  https://api.github.com/repos/Neomediatech/gh-workflows/dispatches \
+#  -d '{
+#    "event_type": "build-ubuntu",
+#    "client_payload": {
+#      "var_1": "valore di esempio",
+#      "var_2": "altro valore"
+#    }
+#  }'
+
+name: Build Ubuntu Docker Images via curl (draft)
+
+on:
+  repository_dispatch: # Per inviare richieste di compilazione immagini via curl
+    types: [build-ubuntu] # ascolta eventi chiamati 'build-ubuntu'
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  build-php:
+    uses: Neomediatech/gh-workflows/.github/workflows/build-docker-image.yml@main
+    with:
+      example-input: "valore"
