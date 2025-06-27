@@ -27,3 +27,4 @@ permissions:
 jobs:
   build-image:
     uses: Neomediatech/gh-workflows/.github/workflows/build-docker-image.yml@main
+    secrets: inherit
