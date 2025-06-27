@@ -1,4 +1,4 @@
-name: OLD Build and Scan Docker Image
+name: _OLD_ Build and Scan Docker Image
 
 on:
   push:
