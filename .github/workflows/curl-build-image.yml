@@ -18,6 +18,7 @@ name: Build Ubuntu Docker Images via curl (draft)
 on:
   repository_dispatch: # Per inviare richieste di compilazione immagini via curl
     types: [build-ubuntu] # ascolta eventi chiamati 'build-ubuntu'
+  workflow_dispatch:
 
 permissions:
   contents: write
