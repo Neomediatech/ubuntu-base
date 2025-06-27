@@ -25,7 +25,5 @@ permissions:
   packages: write
 
 jobs:
-  build-php:
+  build-image:
     uses: Neomediatech/gh-workflows/.github/workflows/build-docker-image.yml@main
-    with:
-      example-input: "valore"
