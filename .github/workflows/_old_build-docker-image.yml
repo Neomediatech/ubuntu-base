@@ -4,9 +4,9 @@ on:
   push:
     paths:
       - 'Dockerfile.*'
-  pull_request:
-    paths:
-      - 'Dockerfile.*'
+  #pull_request:
+  #  paths:
+  #    - 'Dockerfile.*'
   workflow_dispatch: # Permette di avviare il workflow manualmente dalla UI di GitHub
     inputs:
       versions_to_build:
