@@ -1,1 +1,2 @@
 ven 4 lug 2025, 20:40:02, CEST --- ghcr.io/neomediatech/ubuntu-base:18.04 UPDATED
+ven 4 lug 2025, 20:41:23, CEST --- ghcr.io/neomediatech/ubuntu-base:20.04 UPDATED
