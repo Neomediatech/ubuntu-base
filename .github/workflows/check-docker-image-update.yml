@@ -1,4 +1,4 @@
-name: Build Docker Images via curl
+name: Check Docker images updates on cron
 
 on:
   #schedule:
