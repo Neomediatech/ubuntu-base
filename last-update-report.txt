@@ -1,1 +1,2 @@
 mer 9 lug 2025, 18:41:28, CEST --- ghcr.io/neomediatech/ubuntu-base:18.04 not-needed (image build needed: false)
+mer 9 lug 2025, 18:41:48, CEST --- ghcr.io/neomediatech/ubuntu-base:20.04 not-needed (image build needed: false)
