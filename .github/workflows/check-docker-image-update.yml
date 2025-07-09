@@ -13,7 +13,7 @@ permissions:
 
 jobs:
   build-image:
-    uses: Neomediatech/gh-workflows/.github/workflows/build-docker-image.yml@main
+    uses: Neomediatech/gh-workflows/.github/workflows/build-docker-image-bulk.yml@main
     with:
       base-image: ubuntu
       package-name: neomediatech/ubuntu-base
