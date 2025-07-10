@@ -4,3 +4,5 @@ gio 10 lug 2025, 15:19:21, CEST --- ghcr.io/neomediatech/ubuntu-base:18.04 NOT S
 gio 10 lug 2025, 15:19:42, CEST --- ghcr.io/neomediatech/ubuntu-base:20.04 NOT SCANNED
 -----------------------------------
 gio 10 lug 2025, 15:20:04, CEST --- ghcr.io/neomediatech/ubuntu-base:22.04 NOT SCANNED
+-----------------------------------
+gio 10 lug 2025, 15:20:27, CEST --- ghcr.io/neomediatech/ubuntu-base:24.04 NOT SCANNED
