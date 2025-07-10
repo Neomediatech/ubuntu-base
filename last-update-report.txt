@@ -2,3 +2,4 @@ gio 10 lug 2025, 10:27:32, CEST --- ghcr.io/neomediatech/ubuntu-base:18.04 not-n
 gio 10 lug 2025, 10:27:52, CEST --- ghcr.io/neomediatech/ubuntu-base:20.04 not-needed (image build needed: false)
 gio 10 lug 2025, 10:28:12, CEST --- ghcr.io/neomediatech/ubuntu-base:22.04 not-needed (image build needed: false)
 gio 10 lug 2025, 10:28:32, CEST --- ghcr.io/neomediatech/ubuntu-base:24.04 not-needed (image build needed: false)
+gio 10 lug 2025, 10:28:51, CEST --- ghcr.io/neomediatech/ubuntu-base:latest not-needed (image build needed: false)
