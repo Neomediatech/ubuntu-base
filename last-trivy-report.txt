@@ -1,0 +1,2 @@
+-----------------------------------
+gio 10 lug 2025, 15:19:21, CEST --- ghcr.io/neomediatech/ubuntu-base:18.04 NOT SCANNED
