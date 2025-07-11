@@ -9,7 +9,10 @@ COPY bin/tini-static-amd64 bin/dockerize /
 
 RUN echo 'deb http://old-releases.ubuntu.com/ubuntu/ lunar main restricted universe multiverse' > /etc/apt/sources.list ; \
     echo 'deb http://old-releases.ubuntu.com/ubuntu/ lunar-updates main restricted universe multiverse' >> /etc/apt/sources.list ; \
-    echo 'deb http://old-releases.ubuntu.com/ubuntu/ lunar-security main restricted universe multiverse' >> /etc/apt/sources.list
+    echo 'deb http://old-releases.ubuntu.com/ubuntu/ lunar-security main restricted universe multiverse' >> /etc/apt/sources.list ; \
+    echo 'deb-src http://old-releases.ubuntu.com/ubuntu/ lunar main restricted universe multiverse' >> /etc/apt/sources.list ; \
+    echo 'deb-src http://old-releases.ubuntu.com/ubuntu/ lunar-updates main restricted universe multiverse' >> /etc/apt/sources.list ; \
+    echo 'deb-src http://old-releases.ubuntu.com/ubuntu/ lunar-security main restricted universe multiverse' >> /etc/apt/sources.list
 
 RUN echo $TZ > /etc/timezone && \
     apt-get update && apt-get -y dist-upgrade && \
