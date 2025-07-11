@@ -1,9 +1,9 @@
 name: _OLD_ Build and Scan Docker Image
 
 on:
-  push:
-    paths:
-      - 'Dockerfile.*'
+  #push:
+  #  paths:
+  #    - 'Dockerfile.*'
   #pull_request:
   #  paths:
   #    - 'Dockerfile.*'
