@@ -1,2 +1,4 @@
 -----------------------------------
 ven 11 lug 2025, 19:21:03, CEST --- ghcr.io/neomediatech/ubuntu-base:rolling NOT SCANNED
+-----------------------------------
+ven 11 lug 2025, 19:21:24, CEST --- ghcr.io/neomediatech/ubuntu-base:latest NOT SCANNED
