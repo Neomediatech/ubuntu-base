@@ -18,3 +18,5 @@ Legend:
 - '-': Not scanned
 - '0': Clean (no security findings detected)
 
+-----------------------------------
+ven 11 lug 2025, 19:24:12, CEST --- ghcr.io/neomediatech/ubuntu-base:22.04 NOT SCANNED
