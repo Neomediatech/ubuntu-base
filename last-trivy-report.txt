@@ -20,3 +20,5 @@ Legend:
 
 -----------------------------------
 ven 11 lug 2025, 19:24:12, CEST --- ghcr.io/neomediatech/ubuntu-base:22.04 NOT SCANNED
+-----------------------------------
+ven 11 lug 2025, 19:24:33, CEST --- ghcr.io/neomediatech/ubuntu-base:20.04 NOT SCANNED
