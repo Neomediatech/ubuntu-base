@@ -29,6 +29,8 @@ jobs:
       base-image: ubuntu
       package-name: neomediatech/ubuntu-base
       derived-image-prefix: ghcr.io/neomediatech/ubuntu-base
+      versions: '["23.04"]'
+      force-build: "true"
     secrets:
       NOTIFY_CMD: ${{ secrets.NOTIFY_CMD }}
       NOTIFY_UP: ${{ secrets.NOTIFY_UP }}
