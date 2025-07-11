@@ -7,6 +7,10 @@ ENV VERSION=23.04 \
  
 COPY bin/tini-static-amd64 bin/dockerize /
 
+RUN echo 'deb http://old-releases.ubuntu.com/ubuntu/ lunar main restricted universe multiverse' > /etc/apt/sources.list ; \
+    echo 'deb http://old-releases.ubuntu.com/ubuntu/ lunar-updates main restricted universe multiverse' >> /etc/apt/sources.list ; \
+    echo 'deb http://old-releases.ubuntu.com/ubuntu/ lunar-security main restricted universe multiverse' >> /etc/apt/sources.list
+
 RUN echo $TZ > /etc/timezone && \
     apt-get update && apt-get -y dist-upgrade && \
     apt-get install --no-install-recommends -y tzdata locales && \
@@ -22,3 +26,4 @@ RUN localedef -i it_IT -c -f UTF-8 -A /usr/share/locale/locale.alias it_IT.UTF-8
     rm -rf /var/lib/apt/lists/* && \
     chmod +x /tini-static-amd64 /dockerize && \
     ln -s /tini-static-amd64 /tini 
+
