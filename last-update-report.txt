@@ -3,3 +3,4 @@ mer 16 lug 2025, 16:22:14, CEST --- ghcr.io/neomediatech/ubuntu-base:latest UPDA
 mer 16 lug 2025, 16:23:44, CEST --- ghcr.io/neomediatech/ubuntu-base:24.04 UPDATED (image build needed: true)
 mer 16 lug 2025, 16:24:08, CEST --- ghcr.io/neomediatech/ubuntu-base:23.04 not-needed (image build needed: false)
 mer 16 lug 2025, 16:25:46, CEST --- ghcr.io/neomediatech/ubuntu-base:22.04 UPDATED (image build needed: true)
+mer 16 lug 2025, 16:26:09, CEST --- ghcr.io/neomediatech/ubuntu-base:20.04 not-needed (image build needed: false)
