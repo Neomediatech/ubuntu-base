@@ -26,3 +26,17 @@ Legend:
 - '-': Not scanned
 - '0': Clean (no security findings detected)
 
+-----------------------------------
+mer 16 lug 2025, 16:23:44, CEST --- ghcr.io/neomediatech/ubuntu-base:24.04
+
+Report Summary
+
+┌───────────────────────────────────────────────────────┬────────┬─────────────────┬─────────┐
+│                        Target                         │  Type  │ Vulnerabilities │ Secrets │
+├───────────────────────────────────────────────────────┼────────┼─────────────────┼─────────┤
+│ ghcr.io/neomediatech/ubuntu-base:24.04 (ubuntu 24.04) │ ubuntu │        0        │    -    │
+└───────────────────────────────────────────────────────┴────────┴─────────────────┴─────────┘
+Legend:
+- '-': Not scanned
+- '0': Clean (no security findings detected)
+
