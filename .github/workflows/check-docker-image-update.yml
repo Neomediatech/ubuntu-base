@@ -5,6 +5,15 @@ on:
     # Esegui ogni giorno alle 04:00 UTC per controllare gli aggiornamenti.
     #- cron: '0 4 * * *'
   workflow_dispatch:
+    inputs:
+      force-build:
+        description: 'Forza la generazione delle immagini?'
+        required: true
+        default: "false"
+        type: choice
+        options:
+          - "true"
+          - "false"
 
 permissions:
   contents: write
@@ -18,7 +27,8 @@ jobs:
       base-image: ubuntu
       package-name: neomediatech/ubuntu-base
       derived-image-prefix: ghcr.io/neomediatech/ubuntu-base
-      force-build: "false"
+      update-image: "true"
+      force-build: "${{ github.event.inputs.force-build }}"
     secrets:
       NOTIFY_CMD: ${{ secrets.NOTIFY_CMD }}
       NOTIFY_UP: ${{ secrets.NOTIFY_UP }}
