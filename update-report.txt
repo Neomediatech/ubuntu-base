@@ -10,3 +10,4 @@ mer 16 lug 2025, 16:21:43, CEST --- ghcr.io/neomediatech/ubuntu-base:latest UPDA
 mer 16 lug 2025, 16:23:13, CEST --- ghcr.io/neomediatech/ubuntu-base:24.04 UPDATED
 mer 16 lug 2025, 16:25:15, CEST --- ghcr.io/neomediatech/ubuntu-base:22.04 UPDATED
 mar 5 ago 2025, 15:22:49, UTC --- ghcr.io/neomediatech/ubuntu-base:rolling UPDATED
+mar 5 ago 2025, 15:25:31, UTC --- ghcr.io/neomediatech/ubuntu-base:latest UPDATED
