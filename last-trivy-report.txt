@@ -58,3 +58,5 @@ Legend:
 
 -----------------------------------
 mar 5 ago 2025, 15:30:44, UTC --- ghcr.io/neomediatech/ubuntu-base:20.04 NOT SCANNED
+-----------------------------------
+mar 5 ago 2025, 15:31:07, UTC --- ghcr.io/neomediatech/ubuntu-base:18.04 NOT SCANNED
