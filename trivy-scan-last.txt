@@ -1,4 +1,4 @@
-gio 14 ago 2025, 11:38:28, UTC --- ghcr.io/neomediatech/ubuntu-base:18.04
+gio 14 ago 2025, 13:41:29, UTC --- ghcr.io/neomediatech/ubuntu-base:18.04
 
 Report Summary
 
@@ -12,7 +12,7 @@ Legend:
 - '0': Clean (no security findings detected)
 
 -------------------------------------------------------
-gio 14 ago 2025, 11:39:22, UTC --- ghcr.io/neomediatech/ubuntu-base:20.04
+gio 14 ago 2025, 13:41:43, UTC --- ghcr.io/neomediatech/ubuntu-base:20.04
 
 Report Summary
 
@@ -26,7 +26,7 @@ Legend:
 - '0': Clean (no security findings detected)
 
 -------------------------------------------------------
-gio 14 ago 2025, 11:41:49, UTC --- ghcr.io/neomediatech/ubuntu-base:22.04
+gio 14 ago 2025, 13:41:30, UTC --- ghcr.io/neomediatech/ubuntu-base:22.04
 
 Report Summary
 
@@ -40,7 +40,7 @@ Legend:
 - '0': Clean (no security findings detected)
 
 -------------------------------------------------------
-gio 14 ago 2025, 11:40:01, UTC --- ghcr.io/neomediatech/ubuntu-base:23.04
+gio 14 ago 2025, 13:42:32, UTC --- ghcr.io/neomediatech/ubuntu-base:23.04
 
 Report Summary
 
@@ -54,7 +54,7 @@ Legend:
 - '0': Clean (no security findings detected)
 
 -------------------------------------------------------
-gio 14 ago 2025, 11:39:00, UTC --- ghcr.io/neomediatech/ubuntu-base:24.04
+gio 14 ago 2025, 13:41:23, UTC --- ghcr.io/neomediatech/ubuntu-base:24.04
 
 Report Summary
 
@@ -68,7 +68,7 @@ Legend:
 - '0': Clean (no security findings detected)
 
 -------------------------------------------------------
-gio 14 ago 2025, 11:39:00, UTC --- ghcr.io/neomediatech/ubuntu-base:latest
+gio 14 ago 2025, 13:41:15, UTC --- ghcr.io/neomediatech/ubuntu-base:latest
 
 Report Summary
 
@@ -82,7 +82,7 @@ Legend:
 - '0': Clean (no security findings detected)
 
 -------------------------------------------------------
-gio 14 ago 2025, 11:39:20, UTC --- ghcr.io/neomediatech/ubuntu-base:rolling
+gio 14 ago 2025, 13:41:44, UTC --- ghcr.io/neomediatech/ubuntu-base:rolling
 
 Report Summary
 
