@@ -16,7 +16,7 @@ RUN echo 'deb http://old-releases.ubuntu.com/ubuntu/ lunar main restricted unive
 
 RUN echo $TZ > /etc/timezone && \
     apt-get update && apt-get -y dist-upgrade && \
-    apt-get install --no-install-recommends -y tzdata locales && \
+    apt-get install --no-install-recommends -y tzdata locales curl wget ca-certificates && \
     rm -rf /var/lib/apt/lists/*
 
 ENV LANG=it_IT.utf8 \
