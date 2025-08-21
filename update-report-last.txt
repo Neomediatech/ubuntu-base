@@ -1,7 +1,1 @@
-gio 14 ago 2025, 13:40:51, UTC --- ghcr.io/neomediatech/ubuntu-base:latest done (image build needed: true)
-gio 14 ago 2025, 13:40:55, UTC --- ghcr.io/neomediatech/ubuntu-base:24.04 done (image build needed: true)
-gio 14 ago 2025, 13:40:57, UTC --- ghcr.io/neomediatech/ubuntu-base:22.04 done (image build needed: true)
-gio 14 ago 2025, 13:41:01, UTC --- ghcr.io/neomediatech/ubuntu-base:18.04 done (image build needed: true)
-gio 14 ago 2025, 13:41:20, UTC --- ghcr.io/neomediatech/ubuntu-base:20.04 done (image build needed: true)
-gio 14 ago 2025, 13:41:21, UTC --- ghcr.io/neomediatech/ubuntu-base:rolling done (image build needed: true)
-gio 14 ago 2025, 13:42:11, UTC --- ghcr.io/neomediatech/ubuntu-base:23.04 done (image build needed: true)
+gio 21 ago 2025, 15:42:30, CEST --- ghcr.io/neomediatech/ubuntu-base:rolling done (image build needed: true)
