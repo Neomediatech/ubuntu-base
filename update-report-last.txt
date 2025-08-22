@@ -1,0 +1,1 @@
+gio 21 ago 2025, 15:42:30, CEST --- ghcr.io/neomediatech/ubuntu-base:rolling done (image build needed: true)

@@ -1,7 +1,0 @@
-mar 5 ago 2025, 15:23:08, UTC --- ghcr.io/neomediatech/ubuntu-base:rolling UPDATED (image build needed: true)
-mar 5 ago 2025, 15:25:54, UTC --- ghcr.io/neomediatech/ubuntu-base:latest UPDATED (image build needed: true)
-mar 5 ago 2025, 15:27:56, UTC --- ghcr.io/neomediatech/ubuntu-base:24.04 UPDATED (image build needed: true)
-mar 5 ago 2025, 15:28:21, UTC --- ghcr.io/neomediatech/ubuntu-base:23.04 not-needed (image build needed: false)
-mar 5 ago 2025, 15:30:21, UTC --- ghcr.io/neomediatech/ubuntu-base:22.04 UPDATED (image build needed: true)
-mar 5 ago 2025, 15:30:44, UTC --- ghcr.io/neomediatech/ubuntu-base:20.04 not-needed (image build needed: false)
-mar 5 ago 2025, 15:31:07, UTC --- ghcr.io/neomediatech/ubuntu-base:18.04 not-needed (image build needed: false)
