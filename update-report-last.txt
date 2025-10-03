@@ -1,4 +1,4 @@
-lun 22 set 2025, 16:50:21, CEST --- ghcr.io/neomediatech/ubuntu-base:24.04 done (image build needed: true)
-lun 22 set 2025, 16:50:21, CEST --- ghcr.io/neomediatech/ubuntu-base:latest done (image build needed: true)
-lun 22 set 2025, 16:50:40, CEST --- ghcr.io/neomediatech/ubuntu-base:rolling done (image build needed: true)
-lun 22 set 2025, 16:50:43, CEST --- ghcr.io/neomediatech/ubuntu-base:22.04 done (image build needed: true)
+ven 3 ott 2025, 12:19:23, CEST --- ghcr.io/neomediatech/ubuntu-base:latest done (image build needed: true)
+ven 3 ott 2025, 12:19:24, CEST --- ghcr.io/neomediatech/ubuntu-base:24.04 done (image build needed: true)
+ven 3 ott 2025, 12:19:31, CEST --- ghcr.io/neomediatech/ubuntu-base:22.04 done (image build needed: true)
+ven 3 ott 2025, 12:21:55, CEST --- ghcr.io/neomediatech/ubuntu-base:rolling done (image build needed: true)
