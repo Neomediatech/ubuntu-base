@@ -12,6 +12,8 @@ ADD --chmod=777 ${BIN_SOURCE}/tini \
                 /usr/local/bin/
 
 RUN echo $TZ > /etc/timezone && \
+    rm -f /etc/localtime && \
+    ln -s /usr/share/zoneinfo/$TZ /etc/localtime && \
     apt-get update && apt-get -y dist-upgrade && \
     apt-get install --no-install-recommends -y \
                     tzdata locales ca-certificates inetutils-ping netcat-openbsd && \
@@ -21,7 +23,8 @@ ENV LANG=it_IT.utf8 \
     LANGUAGE=it_IT:it \
     LC_ALL=it_IT.UTF-8
 
-RUN localedef -i it_IT -c -f UTF-8 -A /usr/share/locale/locale.alias it_IT.UTF-8 && \
+RUN touch /usr/share/locale/locale.alias && \
+    localedef -i it_IT -c -f UTF-8 -A /usr/share/locale/locale.alias it_IT.UTF-8 && \
     echo "it_IT.UTF-8 UTF-8" > /etc/locale.gen && locale-gen && \
     rm -rf /var/lib/apt/lists/* && \
     ln -s /usr/local/bin/tini /tini && \
