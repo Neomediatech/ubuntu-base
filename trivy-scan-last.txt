@@ -1,4 +1,18 @@
-mar 28 ott 2025, 11:09:49, CET --- ghcr.io/neomediatech/ubuntu-base:24.04
+lun 17 nov 2025, 09:49:23, CET --- ghcr.io/neomediatech/ubuntu-base:22.04
+
+Report Summary
+
+┌───────────────────────────────────────────────────────┬────────┬─────────────────┬─────────┬───────────────────┐
+│                        Target                         │  Type  │ Vulnerabilities │ Secrets │ Misconfigurations │
+├───────────────────────────────────────────────────────┼────────┼─────────────────┼─────────┼───────────────────┤
+│ ghcr.io/neomediatech/ubuntu-base:22.04 (ubuntu 22.04) │ ubuntu │        0        │    -    │         -         │
+└───────────────────────────────────────────────────────┴────────┴─────────────────┴─────────┴───────────────────┘
+Legend:
+- '-': Not scanned
+- '0': Clean (no security findings detected)
+
+-------------------------------------------------------
+lun 17 nov 2025, 09:49:16, CET --- ghcr.io/neomediatech/ubuntu-base:24.04
 
 Report Summary
 
@@ -12,7 +26,7 @@ Legend:
 - '0': Clean (no security findings detected)
 
 -------------------------------------------------------
-mar 28 ott 2025, 11:09:03, CET --- ghcr.io/neomediatech/ubuntu-base:latest
+lun 17 nov 2025, 09:49:18, CET --- ghcr.io/neomediatech/ubuntu-base:latest
 
 Report Summary
 
@@ -21,20 +35,6 @@ Report Summary
 ├────────────────────────────────────────────────────────┼────────┼─────────────────┼─────────┼───────────────────┤
 │ ghcr.io/neomediatech/ubuntu-base:latest (ubuntu 24.04) │ ubuntu │        0        │    -    │         -         │
 └────────────────────────────────────────────────────────┴────────┴─────────────────┴─────────┴───────────────────┘
-Legend:
-- '-': Not scanned
-- '0': Clean (no security findings detected)
-
--------------------------------------------------------
-mar 28 ott 2025, 11:09:17, CET --- ghcr.io/neomediatech/ubuntu-base:rolling
-
-Report Summary
-
-┌─────────────────────────────────────────────────────────┬────────┬─────────────────┬─────────┬───────────────────┐
-│                         Target                          │  Type  │ Vulnerabilities │ Secrets │ Misconfigurations │
-├─────────────────────────────────────────────────────────┼────────┼─────────────────┼─────────┼───────────────────┤
-│ ghcr.io/neomediatech/ubuntu-base:rolling (ubuntu 25.10) │ ubuntu │        0        │    -    │         -         │
-└─────────────────────────────────────────────────────────┴────────┴─────────────────┴─────────┴───────────────────┘
 Legend:
 - '-': Not scanned
 - '0': Clean (no security findings detected)
