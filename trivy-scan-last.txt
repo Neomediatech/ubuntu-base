@@ -1,4 +1,4 @@
-lun 15 dic 2025, 10:33:23, CET --- ghcr.io/neomediatech/ubuntu-base:rolling
+lun 5 gen 2026, 12:15:43, CET --- ghcr.io/neomediatech/ubuntu-base:rolling
 
 Report Summary
 

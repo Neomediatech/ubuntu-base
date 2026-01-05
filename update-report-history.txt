@@ -36,3 +36,4 @@ lun 17 nov 2025, 09:48:56, CET --- ghcr.io/neomediatech/ubuntu-base:24.04 done (
 lun 17 nov 2025, 09:48:56, CET --- ghcr.io/neomediatech/ubuntu-base:latest done (image build needed: true)
 lun 17 nov 2025, 09:49:04, CET --- ghcr.io/neomediatech/ubuntu-base:22.04 done (image build needed: true)
 lun 15 dic 2025, 10:32:56, CET --- ghcr.io/neomediatech/ubuntu-base:rolling done (image build needed: true)
+lun 5 gen 2026, 12:15:13, CET --- ghcr.io/neomediatech/ubuntu-base:rolling done (image build needed: true)

@@ -1,1 +1,1 @@
-lun 15 dic 2025, 10:32:56, CET --- ghcr.io/neomediatech/ubuntu-base:rolling done (image build needed: true)
+lun 5 gen 2026, 12:15:13, CET --- ghcr.io/neomediatech/ubuntu-base:rolling done (image build needed: true)
