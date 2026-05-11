@@ -21,6 +21,9 @@ ENV LANG=it_IT.utf8 \
     LANGUAGE=it_IT:it \
     LC_ALL=it_IT.UTF-8
 
+RUN [ ! -d /usr/share/locale ] && mkdir -p /usr/share/locale ; \
+    [ ! -f /usr/share/locale/locale.alias ] && touch /usr/share/locale/locale.alias
+
 RUN localedef -i it_IT -c -f UTF-8 -A /usr/share/locale/locale.alias it_IT.UTF-8 && \
     echo "it_IT.UTF-8 UTF-8" > /etc/locale.gen && locale-gen && \
     rm -rf /var/lib/apt/lists/* && \
