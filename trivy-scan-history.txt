@@ -1139,3 +1139,168 @@ Total: 7 (HIGH: 7, CRITICAL: 0)
 │                  │                │          │        │                   │                 │ https://avd.aquasec.com/nvd/cve-2026-42504                   │
 └──────────────────┴────────────────┴──────────┴────────┴───────────────────┴─────────────────┴──────────────────────────────────────────────────────────────┘
 -------------------------------------------------------
+mar 21 lug 2026, 11:16:44, CEST --- ghcr.io/neomediatech/ubuntu-base:26.04
+
+Report Summary
+
+┌───────────────────────────────────────────────────────┬──────────┬─────────────────┬─────────┬───────────────────┐
+│                        Target                         │   Type   │ Vulnerabilities │ Secrets │ Misconfigurations │
+├───────────────────────────────────────────────────────┼──────────┼─────────────────┼─────────┼───────────────────┤
+│ ghcr.io/neomediatech/ubuntu-base:26.04 (ubuntu 26.04) │  ubuntu  │        0        │    -    │         -         │
+├───────────────────────────────────────────────────────┼──────────┼─────────────────┼─────────┼───────────────────┤
+│ usr/bin/pebble                                        │ gobinary │        5        │    -    │         -         │
+└───────────────────────────────────────────────────────┴──────────┴─────────────────┴─────────┴───────────────────┘
+Legend:
+- '-': Not scanned
+- '0': Clean (no security findings detected)
+
+
+For OSS Maintainers: VEX Notice
+--------------------------------
+If you're an OSS maintainer and Trivy has detected vulnerabilities in your project that you believe are not actually exploitable, consider issuing a VEX (Vulnerability Exploitability eXchange) statement.
+VEX allows you to communicate the actual status of vulnerabilities in your project, improving security transparency and reducing false positives for your users.
+Learn more and start using VEX: https://trivy.dev/docs/v0.72/guide/supply-chain/vex/repo#publishing-vex-documents
+
+To disable this notice, set the TRIVY_DISABLE_VEX_NOTICE environment variable.
+
+
+usr/bin/pebble (gobinary)
+=========================
+Total: 5 (HIGH: 5, CRITICAL: 0)
+
+┌──────────────────┬────────────────┬──────────┬────────┬───────────────────┬──────────────────────────────┬──────────────────────────────────────────────────────────────┐
+│     Library      │ Vulnerability  │ Severity │ Status │ Installed Version │        Fixed Version         │                            Title                             │
+├──────────────────┼────────────────┼──────────┼────────┼───────────────────┼──────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│ golang.org/x/net │ CVE-2026-25681 │ HIGH     │ fixed  │ v0.40.0           │ 0.55.0                       │ golang.org/x/net/html: golang.org/x/net/html: Arbitrary code │
+│                  │                │          │        │                   │                              │ execution via Cross-Site Scripting                           │
+│                  │                │          │        │                   │                              │ https://avd.aquasec.com/nvd/cve-2026-25681                   │
+│                  ├────────────────┤          │        │                   │                              ├──────────────────────────────────────────────────────────────┤
+│                  │ CVE-2026-27136 │          │        │                   │                              │ golang.org/x/net/html: golang: golang.org/x/net/html:        │
+│                  │                │          │        │                   │                              │ Cross-Site Scripting via HTML parsing bypass                 │
+│                  │                │          │        │                   │                              │ https://avd.aquasec.com/nvd/cve-2026-27136                   │
+│                  ├────────────────┤          │        │                   ├──────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│                  │ CVE-2026-33814 │          │        │                   │ 0.53.0                       │ net/http/internal/http2: golang: golang.org/x/net: Go        │
+│                  │                │          │        │                   │                              │ HTTP/2: Denial of Service via malformed                      │
+│                  │                │          │        │                   │                              │ SETTINGS_MAX_FRAME_SIZE frame...                             │
+│                  │                │          │        │                   │                              │ https://avd.aquasec.com/nvd/cve-2026-33814                   │
+│                  ├────────────────┤          │        │                   ├──────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│                  │ CVE-2026-39821 │          │        │                   │ 0.55.0                       │ golang.org/x/net/idna: golang: net/http:                     │
+│                  │                │          │        │                   │                              │ golang.org/x/net/idna: Privilege escalation via incorrect    │
+│                  │                │          │        │                   │                              │ Punycode label processing                                    │
+│                  │                │          │        │                   │                              │ https://avd.aquasec.com/nvd/cve-2026-39821                   │
+├──────────────────┼────────────────┤          │        ├───────────────────┼──────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│ stdlib           │ CVE-2026-39822 │          │        │ v1.26.4           │ 1.25.12, 1.26.5, 1.27.0-rc.2 │ os: golang: Go os.Root: Symlink following vulnerability      │
+│                  │                │          │        │                   │                              │ allows directory traversal                                   │
+│                  │                │          │        │                   │                              │ https://avd.aquasec.com/nvd/cve-2026-39822                   │
+└──────────────────┴────────────────┴──────────┴────────┴───────────────────┴──────────────────────────────┴──────────────────────────────────────────────────────────────┘
+-------------------------------------------------------
+mar 21 lug 2026, 11:16:55, CEST --- ghcr.io/neomediatech/ubuntu-base:latest
+
+Report Summary
+
+┌────────────────────────────────────────────────────────┬──────────┬─────────────────┬─────────┬───────────────────┐
+│                         Target                         │   Type   │ Vulnerabilities │ Secrets │ Misconfigurations │
+├────────────────────────────────────────────────────────┼──────────┼─────────────────┼─────────┼───────────────────┤
+│ ghcr.io/neomediatech/ubuntu-base:latest (ubuntu 26.04) │  ubuntu  │        0        │    -    │         -         │
+├────────────────────────────────────────────────────────┼──────────┼─────────────────┼─────────┼───────────────────┤
+│ usr/bin/pebble                                         │ gobinary │        5        │    -    │         -         │
+└────────────────────────────────────────────────────────┴──────────┴─────────────────┴─────────┴───────────────────┘
+Legend:
+- '-': Not scanned
+- '0': Clean (no security findings detected)
+
+
+For OSS Maintainers: VEX Notice
+--------------------------------
+If you're an OSS maintainer and Trivy has detected vulnerabilities in your project that you believe are not actually exploitable, consider issuing a VEX (Vulnerability Exploitability eXchange) statement.
+VEX allows you to communicate the actual status of vulnerabilities in your project, improving security transparency and reducing false positives for your users.
+Learn more and start using VEX: https://trivy.dev/docs/v0.72/guide/supply-chain/vex/repo#publishing-vex-documents
+
+To disable this notice, set the TRIVY_DISABLE_VEX_NOTICE environment variable.
+
+
+usr/bin/pebble (gobinary)
+=========================
+Total: 5 (HIGH: 5, CRITICAL: 0)
+
+┌──────────────────┬────────────────┬──────────┬────────┬───────────────────┬──────────────────────────────┬──────────────────────────────────────────────────────────────┐
+│     Library      │ Vulnerability  │ Severity │ Status │ Installed Version │        Fixed Version         │                            Title                             │
+├──────────────────┼────────────────┼──────────┼────────┼───────────────────┼──────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│ golang.org/x/net │ CVE-2026-25681 │ HIGH     │ fixed  │ v0.40.0           │ 0.55.0                       │ golang.org/x/net/html: golang.org/x/net/html: Arbitrary code │
+│                  │                │          │        │                   │                              │ execution via Cross-Site Scripting                           │
+│                  │                │          │        │                   │                              │ https://avd.aquasec.com/nvd/cve-2026-25681                   │
+│                  ├────────────────┤          │        │                   │                              ├──────────────────────────────────────────────────────────────┤
+│                  │ CVE-2026-27136 │          │        │                   │                              │ golang.org/x/net/html: golang: golang.org/x/net/html:        │
+│                  │                │          │        │                   │                              │ Cross-Site Scripting via HTML parsing bypass                 │
+│                  │                │          │        │                   │                              │ https://avd.aquasec.com/nvd/cve-2026-27136                   │
+│                  ├────────────────┤          │        │                   ├──────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│                  │ CVE-2026-33814 │          │        │                   │ 0.53.0                       │ net/http/internal/http2: golang: golang.org/x/net: Go        │
+│                  │                │          │        │                   │                              │ HTTP/2: Denial of Service via malformed                      │
+│                  │                │          │        │                   │                              │ SETTINGS_MAX_FRAME_SIZE frame...                             │
+│                  │                │          │        │                   │                              │ https://avd.aquasec.com/nvd/cve-2026-33814                   │
+│                  ├────────────────┤          │        │                   ├──────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│                  │ CVE-2026-39821 │          │        │                   │ 0.55.0                       │ golang.org/x/net/idna: golang: net/http:                     │
+│                  │                │          │        │                   │                              │ golang.org/x/net/idna: Privilege escalation via incorrect    │
+│                  │                │          │        │                   │                              │ Punycode label processing                                    │
+│                  │                │          │        │                   │                              │ https://avd.aquasec.com/nvd/cve-2026-39821                   │
+├──────────────────┼────────────────┤          │        ├───────────────────┼──────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│ stdlib           │ CVE-2026-39822 │          │        │ v1.26.4           │ 1.25.12, 1.26.5, 1.27.0-rc.2 │ os: golang: Go os.Root: Symlink following vulnerability      │
+│                  │                │          │        │                   │                              │ allows directory traversal                                   │
+│                  │                │          │        │                   │                              │ https://avd.aquasec.com/nvd/cve-2026-39822                   │
+└──────────────────┴────────────────┴──────────┴────────┴───────────────────┴──────────────────────────────┴──────────────────────────────────────────────────────────────┘
+-------------------------------------------------------
+mar 21 lug 2026, 11:16:46, CEST --- ghcr.io/neomediatech/ubuntu-base:rolling
+
+Report Summary
+
+┌─────────────────────────────────────────────────────────┬──────────┬─────────────────┬─────────┬───────────────────┐
+│                         Target                          │   Type   │ Vulnerabilities │ Secrets │ Misconfigurations │
+├─────────────────────────────────────────────────────────┼──────────┼─────────────────┼─────────┼───────────────────┤
+│ ghcr.io/neomediatech/ubuntu-base:rolling (ubuntu 26.04) │  ubuntu  │        0        │    -    │         -         │
+├─────────────────────────────────────────────────────────┼──────────┼─────────────────┼─────────┼───────────────────┤
+│ usr/bin/pebble                                          │ gobinary │        5        │    -    │         -         │
+└─────────────────────────────────────────────────────────┴──────────┴─────────────────┴─────────┴───────────────────┘
+Legend:
+- '-': Not scanned
+- '0': Clean (no security findings detected)
+
+
+For OSS Maintainers: VEX Notice
+--------------------------------
+If you're an OSS maintainer and Trivy has detected vulnerabilities in your project that you believe are not actually exploitable, consider issuing a VEX (Vulnerability Exploitability eXchange) statement.
+VEX allows you to communicate the actual status of vulnerabilities in your project, improving security transparency and reducing false positives for your users.
+Learn more and start using VEX: https://trivy.dev/docs/v0.72/guide/supply-chain/vex/repo#publishing-vex-documents
+
+To disable this notice, set the TRIVY_DISABLE_VEX_NOTICE environment variable.
+
+
+usr/bin/pebble (gobinary)
+=========================
+Total: 5 (HIGH: 5, CRITICAL: 0)
+
+┌──────────────────┬────────────────┬──────────┬────────┬───────────────────┬──────────────────────────────┬──────────────────────────────────────────────────────────────┐
+│     Library      │ Vulnerability  │ Severity │ Status │ Installed Version │        Fixed Version         │                            Title                             │
+├──────────────────┼────────────────┼──────────┼────────┼───────────────────┼──────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│ golang.org/x/net │ CVE-2026-25681 │ HIGH     │ fixed  │ v0.40.0           │ 0.55.0                       │ golang.org/x/net/html: golang.org/x/net/html: Arbitrary code │
+│                  │                │          │        │                   │                              │ execution via Cross-Site Scripting                           │
+│                  │                │          │        │                   │                              │ https://avd.aquasec.com/nvd/cve-2026-25681                   │
+│                  ├────────────────┤          │        │                   │                              ├──────────────────────────────────────────────────────────────┤
+│                  │ CVE-2026-27136 │          │        │                   │                              │ golang.org/x/net/html: golang: golang.org/x/net/html:        │
+│                  │                │          │        │                   │                              │ Cross-Site Scripting via HTML parsing bypass                 │
+│                  │                │          │        │                   │                              │ https://avd.aquasec.com/nvd/cve-2026-27136                   │
+│                  ├────────────────┤          │        │                   ├──────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│                  │ CVE-2026-33814 │          │        │                   │ 0.53.0                       │ net/http/internal/http2: golang: golang.org/x/net: Go        │
+│                  │                │          │        │                   │                              │ HTTP/2: Denial of Service via malformed                      │
+│                  │                │          │        │                   │                              │ SETTINGS_MAX_FRAME_SIZE frame...                             │
+│                  │                │          │        │                   │                              │ https://avd.aquasec.com/nvd/cve-2026-33814                   │
+│                  ├────────────────┤          │        │                   ├──────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│                  │ CVE-2026-39821 │          │        │                   │ 0.55.0                       │ golang.org/x/net/idna: golang: net/http:                     │
+│                  │                │          │        │                   │                              │ golang.org/x/net/idna: Privilege escalation via incorrect    │
+│                  │                │          │        │                   │                              │ Punycode label processing                                    │
+│                  │                │          │        │                   │                              │ https://avd.aquasec.com/nvd/cve-2026-39821                   │
+├──────────────────┼────────────────┤          │        ├───────────────────┼──────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│ stdlib           │ CVE-2026-39822 │          │        │ v1.26.4           │ 1.25.12, 1.26.5, 1.27.0-rc.2 │ os: golang: Go os.Root: Symlink following vulnerability      │
+│                  │                │          │        │                   │                              │ allows directory traversal                                   │
+│                  │                │          │        │                   │                              │ https://avd.aquasec.com/nvd/cve-2026-39822                   │
+└──────────────────┴────────────────┴──────────┴────────┴───────────────────┴──────────────────────────────┴──────────────────────────────────────────────────────────────┘
+-------------------------------------------------------
