@@ -67,3 +67,8 @@ lun 6 lug 2026, 11:37:25, CEST --- ghcr.io/neomediatech/ubuntu-base:26.04 done (
 mar 21 lug 2026, 11:16:20, CEST --- ghcr.io/neomediatech/ubuntu-base:26.04 done (image build needed: true)
 mar 21 lug 2026, 11:16:21, CEST --- ghcr.io/neomediatech/ubuntu-base:rolling done (image build needed: true)
 mar 21 lug 2026, 11:16:35, CEST --- ghcr.io/neomediatech/ubuntu-base:latest done (image build needed: true)
+lun 10 ago 2026, 10:28:17, CEST --- ghcr.io/neomediatech/ubuntu-base:24.04 done (image build needed: true)
+lun 10 ago 2026, 10:28:43, CEST --- ghcr.io/neomediatech/ubuntu-base:latest done (image build needed: true)
+lun 10 ago 2026, 10:28:47, CEST --- ghcr.io/neomediatech/ubuntu-base:22.04 done (image build needed: true)
+lun 10 ago 2026, 10:28:57, CEST --- ghcr.io/neomediatech/ubuntu-base:rolling done (image build needed: true)
+lun 10 ago 2026, 10:28:58, CEST --- ghcr.io/neomediatech/ubuntu-base:26.04 done (image build needed: true)
