@@ -1,4 +1,4 @@
-mar 25 ago 2026, 20:03:52, CEST --- ghcr.io/neomediatech/ubuntu-base:22.04
+lun 14 set 2026, 11:51:13, CEST --- ghcr.io/neomediatech/ubuntu-base:22.04
 
 Report Summary
 
@@ -12,7 +12,7 @@ Legend:
 - '0': Clean (no security findings detected)
 
 -------------------------------------------------------
-mar 25 ago 2026, 20:03:26, CEST --- ghcr.io/neomediatech/ubuntu-base:24.04
+lun 14 set 2026, 11:50:28, CEST --- ghcr.io/neomediatech/ubuntu-base:24.04
 
 Report Summary
 
@@ -26,7 +26,7 @@ Legend:
 - '0': Clean (no security findings detected)
 
 -------------------------------------------------------
-mar 25 ago 2026, 20:03:21, CEST --- ghcr.io/neomediatech/ubuntu-base:26.04
+lun 14 set 2026, 11:51:06, CEST --- ghcr.io/neomediatech/ubuntu-base:26.04
 
 Report Summary
 
@@ -93,7 +93,7 @@ Total: 8 (HIGH: 8, CRITICAL: 0)
 │         │                │          │        │                   │                              │ https://avd.aquasec.com/nvd/cve-2026-56862                   │
 └─────────┴────────────────┴──────────┴────────┴───────────────────┴──────────────────────────────┴──────────────────────────────────────────────────────────────┘
 -------------------------------------------------------
-mar 25 ago 2026, 20:03:21, CEST --- ghcr.io/neomediatech/ubuntu-base:latest
+lun 14 set 2026, 11:51:04, CEST --- ghcr.io/neomediatech/ubuntu-base:latest
 
 Report Summary
 
@@ -160,7 +160,7 @@ Total: 8 (HIGH: 8, CRITICAL: 0)
 │         │                │          │        │                   │                              │ https://avd.aquasec.com/nvd/cve-2026-56862                   │
 └─────────┴────────────────┴──────────┴────────┴───────────────────┴──────────────────────────────┴──────────────────────────────────────────────────────────────┘
 -------------------------------------------------------
-mar 25 ago 2026, 20:03:21, CEST --- ghcr.io/neomediatech/ubuntu-base:rolling
+lun 14 set 2026, 11:51:04, CEST --- ghcr.io/neomediatech/ubuntu-base:rolling
 
 Report Summary
 
