@@ -1,9 +1,9 @@
 name: Check Docker images updates on cron
 
 on:
-  #schedule:
+  schedule:
     # Esegui ogni giorno alle 04:00 UTC per controllare gli aggiornamenti.
-    # - cron: '30 4 * * *'
+     - cron: '30 4 * * *'
   workflow_dispatch:
     inputs:
       force-build:
@@ -28,7 +28,7 @@ jobs:
       package-name: neomediatech/ubuntu-base
       derived-image-prefix: ghcr.io/neomediatech/ubuntu-base
       update-image: "true"
-      force-build: "${{ github.event.inputs.force-build }}"
+      force-build: "${{ github.event.inputs.force-build || 'false' }}"
     secrets:
       NOTIFY_CMD: ${{ secrets.NOTIFY_CMD }}
       NOTIFY_UP: ${{ secrets.NOTIFY_UP }}
