@@ -1,4 +1,18 @@
-mer 16 set 2026, 11:27:49, CEST --- ghcr.io/neomediatech/ubuntu-base:24.04
+ven 18 set 2026, 11:08:54, CEST --- ghcr.io/neomediatech/ubuntu-base:22.04
+
+Report Summary
+
+┌───────────────────────────────────────────────────────┬────────┬─────────────────┬─────────┬───────────────────┐
+│                        Target                         │  Type  │ Vulnerabilities │ Secrets │ Misconfigurations │
+├───────────────────────────────────────────────────────┼────────┼─────────────────┼─────────┼───────────────────┤
+│ ghcr.io/neomediatech/ubuntu-base:22.04 (ubuntu 22.04) │ ubuntu │        0        │    -    │         -         │
+└───────────────────────────────────────────────────────┴────────┴─────────────────┴─────────┴───────────────────┘
+Legend:
+- '-': Not scanned
+- '0': Clean (no security findings detected)
+
+-------------------------------------------------------
+ven 18 set 2026, 11:08:39, CEST --- ghcr.io/neomediatech/ubuntu-base:24.04
 
 Report Summary
 
@@ -12,7 +26,7 @@ Legend:
 - '0': Clean (no security findings detected)
 
 -------------------------------------------------------
-mer 16 set 2026, 11:28:03, CEST --- ghcr.io/neomediatech/ubuntu-base:26.04
+ven 18 set 2026, 11:08:45, CEST --- ghcr.io/neomediatech/ubuntu-base:26.04
 
 Report Summary
 
@@ -28,7 +42,7 @@ Legend:
 - '0': Clean (no security findings detected)
 
 -------------------------------------------------------
-mer 16 set 2026, 11:27:59, CEST --- ghcr.io/neomediatech/ubuntu-base:latest
+ven 18 set 2026, 11:08:45, CEST --- ghcr.io/neomediatech/ubuntu-base:latest
 
 Report Summary
 
@@ -44,7 +58,7 @@ Legend:
 - '0': Clean (no security findings detected)
 
 -------------------------------------------------------
-mer 16 set 2026, 11:27:57, CEST --- ghcr.io/neomediatech/ubuntu-base:rolling
+ven 18 set 2026, 11:08:45, CEST --- ghcr.io/neomediatech/ubuntu-base:rolling
 
 Report Summary
 
