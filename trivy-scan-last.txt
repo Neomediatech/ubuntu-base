@@ -1,4 +1,4 @@
-ven 2 ott 2026, 12:42:51, CEST --- ghcr.io/neomediatech/ubuntu-base:22.04
+dom 4 ott 2026, 12:43:53, CEST --- ghcr.io/neomediatech/ubuntu-base:22.04
 
 Report Summary
 
@@ -12,7 +12,7 @@ Legend:
 - '0': Clean (no security findings detected)
 
 -------------------------------------------------------
-ven 2 ott 2026, 12:42:26, CEST --- ghcr.io/neomediatech/ubuntu-base:24.04
+dom 4 ott 2026, 12:43:33, CEST --- ghcr.io/neomediatech/ubuntu-base:24.04
 
 Report Summary
 
@@ -26,7 +26,7 @@ Legend:
 - '0': Clean (no security findings detected)
 
 -------------------------------------------------------
-ven 2 ott 2026, 12:42:42, CEST --- ghcr.io/neomediatech/ubuntu-base:26.04
+dom 4 ott 2026, 12:43:43, CEST --- ghcr.io/neomediatech/ubuntu-base:26.04
 
 Report Summary
 
@@ -42,7 +42,7 @@ Legend:
 - '0': Clean (no security findings detected)
 
 -------------------------------------------------------
-ven 2 ott 2026, 12:42:44, CEST --- ghcr.io/neomediatech/ubuntu-base:latest
+dom 4 ott 2026, 12:43:43, CEST --- ghcr.io/neomediatech/ubuntu-base:latest
 
 Report Summary
 
@@ -58,7 +58,7 @@ Legend:
 - '0': Clean (no security findings detected)
 
 -------------------------------------------------------
-ven 2 ott 2026, 12:42:40, CEST --- ghcr.io/neomediatech/ubuntu-base:rolling
+dom 4 ott 2026, 12:43:43, CEST --- ghcr.io/neomediatech/ubuntu-base:rolling
 
 Report Summary
 
