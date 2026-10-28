@@ -1,32 +1,4 @@
-mar 27 ott 2026, 11:00:16, CET --- ghcr.io/neomediatech/ubuntu-base:22.04
-
-Report Summary
-
-┌───────────────────────────────────────────────────────┬────────┬─────────────────┬─────────┬───────────────────┐
-│                        Target                         │  Type  │ Vulnerabilities │ Secrets │ Misconfigurations │
-├───────────────────────────────────────────────────────┼────────┼─────────────────┼─────────┼───────────────────┤
-│ ghcr.io/neomediatech/ubuntu-base:22.04 (ubuntu 22.04) │ ubuntu │        0        │    -    │         -         │
-└───────────────────────────────────────────────────────┴────────┴─────────────────┴─────────┴───────────────────┘
-Legend:
-- '-': Not scanned
-- '0': Clean (no security findings detected)
-
--------------------------------------------------------
-mar 27 ott 2026, 10:59:44, CET --- ghcr.io/neomediatech/ubuntu-base:24.04
-
-Report Summary
-
-┌───────────────────────────────────────────────────────┬────────┬─────────────────┬─────────┬───────────────────┐
-│                        Target                         │  Type  │ Vulnerabilities │ Secrets │ Misconfigurations │
-├───────────────────────────────────────────────────────┼────────┼─────────────────┼─────────┼───────────────────┤
-│ ghcr.io/neomediatech/ubuntu-base:24.04 (ubuntu 24.04) │ ubuntu │        0        │    -    │         -         │
-└───────────────────────────────────────────────────────┴────────┴─────────────────┴─────────┴───────────────────┘
-Legend:
-- '-': Not scanned
-- '0': Clean (no security findings detected)
-
--------------------------------------------------------
-mar 27 ott 2026, 11:00:08, CET --- ghcr.io/neomediatech/ubuntu-base:26.04
+mer 28 ott 2026, 11:48:54, CET --- ghcr.io/neomediatech/ubuntu-base:26.04
 
 Report Summary
 
@@ -42,7 +14,7 @@ Legend:
 - '0': Clean (no security findings detected)
 
 -------------------------------------------------------
-mar 27 ott 2026, 11:00:10, CET --- ghcr.io/neomediatech/ubuntu-base:latest
+mer 28 ott 2026, 11:48:54, CET --- ghcr.io/neomediatech/ubuntu-base:latest
 
 Report Summary
 
@@ -53,22 +25,6 @@ Report Summary
 ├────────────────────────────────────────────────────────┼──────────┼─────────────────┼─────────┼───────────────────┤
 │ usr/bin/pebble                                         │ gobinary │        0        │    -    │         -         │
 └────────────────────────────────────────────────────────┴──────────┴─────────────────┴─────────┴───────────────────┘
-Legend:
-- '-': Not scanned
-- '0': Clean (no security findings detected)
-
--------------------------------------------------------
-mar 27 ott 2026, 11:00:04, CET --- ghcr.io/neomediatech/ubuntu-base:rolling
-
-Report Summary
-
-┌─────────────────────────────────────────────────────────────┬──────────┬─────────────────┬─────────┬───────────────────┐
-│                           Target                            │   Type   │ Vulnerabilities │ Secrets │ Misconfigurations │
-├─────────────────────────────────────────────────────────────┼──────────┼─────────────────┼─────────┼───────────────────┤
-│ ghcr.io/neomediatech/ubuntu-base:rolling (debian forky/sid) │  debian  │        0        │    -    │         -         │
-├─────────────────────────────────────────────────────────────┼──────────┼─────────────────┼─────────┼───────────────────┤
-│ usr/bin/pebble                                              │ gobinary │        0        │    -    │         -         │
-└─────────────────────────────────────────────────────────────┴──────────┴─────────────────┴─────────┴───────────────────┘
 Legend:
 - '-': Not scanned
 - '0': Clean (no security findings detected)
